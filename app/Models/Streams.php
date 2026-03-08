@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Streams extends Model
+{
+    /** @use HasFactory<\Database\Factories\StreamsFactory> */
+    use HasFactory;
+
+    protected $fillable = [
+        'intro',
+        'couples_name',
+        'slug',
+        'quote',
+        'event_date',
+        'stream_url',
+        'description',
+        'love_story',
+        'tags',
+        'gallery',
+        'thumbnail',
+        'metadata',
+        'status'
+    ];
+
+    protected $casts = [
+        'tags' => 'array',
+        'gallery' => 'array',
+        'metadata' => 'object',
+        'event_date' => 'datetime',
+    ];
+}

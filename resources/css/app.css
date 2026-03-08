@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+  --font-sans:
+    "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* Color */
+  --color-highlight: #8e43f0;
+  --color-darkGray: #584d66;
+
+  /* Fonts */
+  --font-inter: "inter", sans-serif;
+  --font-brygada: "Brygada 1918", serif;
+}
+
+@layer components {
+  .h1 {
+    @apply text-8xl font-bold;
+  }
+  .h2 {
+    @apply text-4xl font-semibold;
+  }
+  .h3 {
+    @apply text-2xl font-medium;
+  }
+  .h4 {
+    @apply text-lg font-medium;
+  }
+  .h5 {
+    @apply text-base font-medium;
+  }
+  .h6 {
+    @apply text-sm font-medium;
+  }
+  .p {
+    @apply text-base;
+  }
+  .wrapper {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .wrapper-container {
+    @apply max-w-7xl mx-auto px-4;
+  }
+
+  .nav-container {
+    width: min(1200px, calc(32px - 100%));
+    margin-inline: auto;
+  }
+
+  .hero-img {
+    @apply bg-[url(/assets/images/hero-img.jpg)] bg-cover bg-center;
+  }
+
+  .about-img {
+    @apply bg-[url(/assets/images/about-img.jpg)] bg-cover bg-center;
+  }
+
+  .services-img {
+    @apply bg-[url(/assets/images/services-img.jpg)] bg-cover bg-center;
+  }
+
+  .streams-img {
+    @apply bg-[url(/assets/images/streams-img.jpg)] bg-cover bg-center;
+  }
+
+  .contact-img {
+    @apply bg-[url(/assets/images/contact-img.jpg)] bg-cover bg-center;
+  }
+
+  .featured-stream::before {
+    @apply absolute inset-0 bg-[url(/assets/images/ribbon.jpg)] bg-cover bg-center;
+  }
+
+  .nav-link > li {
+    @apply transition duration-200 ease-in;
+  }
+}
+
+@layer utilities {
+}
+
+@layer base {
+  body {
+    @apply font-inter min-h-screen bg-white;
+  }
+
+  section {
+    @apply w-full;
+  }
+
+  /* section {
+    @apply flex min-h-screen flex-col items-center justify-center py-28 text-white md:py-32;
+  } */
+}
