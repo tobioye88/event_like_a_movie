@@ -22,6 +22,6 @@ class Appointment extends Model
 
     protected $casts = [
         'metadata' => 'object',
-        // 'appointment_date' => 'datetime',
+        'appointment_date' => 'datetime',
     ];
 }

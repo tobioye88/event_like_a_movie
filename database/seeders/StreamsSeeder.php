@@ -24,15 +24,20 @@ class StreamsSeeder extends Seeder
             'love_story' => "Gbemi & Dokun's Love Story\nOur first contact was via BBM chat in December 2015, our mutual friend; Lolade, had exchanged our contacts. We became close friends almost instantly. Our first date was the icing on the cake, it was surely love at first sight… we met at a poolside lounge and spoke about everything! our friendship gradually evolved into a relationship.\nWith God’s help, we have been able to tackle each challenge with grace and persistence, never giving up on each other. Our relationship has grown daily, with endless love, mutual respect, honesty and understanding. On the 7th of May 2023, we entered a new phase of our relationship and said YES! to forever. At God’s perfect timing, we are entering a new beginning to forever\n#ThePerfectGD23.",
             'tags' => ['love', 'wedding', 'celebration'],
             'gallery' => [
-                'https://res.cloudinary.com/dzcmadjl1/image/upload/v1700000000/sample.jpg',
-                'https://res.cloudinary.com/dzcmadjl1/image/upload/v1700000000/sample.jpg',
-                'https://res.cloudinary.com/dzcmadjl1/image/upload/v1700000000/sample.jpg',
-                'https://res.cloudinary.com/dzcmadjl1/image/upload/v1700000000/sample.jpg',
-                'https://res.cloudinary.com/dzcmadjl1/image/upload/v1700000000/sample.jpg',
-                'https://res.cloudinary.com/dzcmadjl1/image/upload/v1700000000/sample.jpg',
-                'https://res.cloudinary.com/dzcmadjl1/image/upload/v1700000000/sample.jpg',
+                'https://elm.test/assets/images/WhatsApp-Image-2023-11-23-at-6.37.42-AM-1-768x953.jpeg',
+                'https://elm.test/assets/images/WhatsApp-Image-2023-11-23-at-6.37.42-AM-768x949.jpeg',
+                'https://elm.test/assets/images/WhatsApp-Image-2023-11-23-at-6.37.43-AM-1-768x951.jpeg',
+                'https://elm.test/assets/images/WhatsApp-Image-2023-11-23-at-6.37.44-AM-2-1-768x953 (1).jpeg',
+                'https://elm.test/assets/images/WhatsApp-Image-2023-11-23-at-6.37.44-AM-2-1-768x953.jpeg',
+                'https://elm.test/assets/images/WhatsApp-Image-2023-11-23-at-6.37.44-AM-3-768x957.jpeg',
+                'https://elm.test/assets/images/WhatsApp-Image-2023-11-23-at-6.37.44-AM-4-768x961.jpeg',
+                'https://elm.test/assets/images/WhatsApp-Image-2023-11-23-at-6.37.44-AM-768x951 (1).jpeg',
+                'https://elm.test/assets/images/WhatsApp-Image-2023-11-23-at-6.37.44-AM-768x951.jpeg',
             ],
             'thumbnail' => 'https://res.cloudinary.com/dzcmadjl1/image/upload/v1700000000/sample.jpg',
+            'metadata' => [
+                'background_image' => 'https://elm.test/assets/images/bg-gbemi-dokun.jpg',
+            ],
             'status' => 'active',
         ]);
     }

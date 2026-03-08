@@ -29,16 +29,17 @@ class AppointmentController extends Controller
      */
     public function store(StoreAppointmentRequest $request)
     {
-        $validated = $request->validated();
+        $payload = $request->safe()->except(['company', 'form_started_at']);
+        $appointment = Appointment::create($payload);
 
-        // Create a new appointment using the validated data
-        $appointment = Appointment::create($validated);
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Appointment created successfully',
+                'appointment' => $appointment,
+            ], 201);
+        }
 
-        // You can return a response or redirect as needed
-        return response()->json([
-            'message' => 'Appointment created successfully',
-            'appointment' => $appointment,
-        ], 201);
+        return back()->with('success', 'Appointment request sent successfully. We will contact you shortly.');
     }
 
     /**

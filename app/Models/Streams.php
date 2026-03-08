@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Streams extends Model
 {
@@ -32,4 +33,9 @@ class Streams extends Model
         'metadata' => 'object',
         'event_date' => 'datetime',
     ];
+
+    public function rsvps(): HasMany
+    {
+        return $this->hasMany(StreamsRsvp::class, 'stream_id');
+    }
 }

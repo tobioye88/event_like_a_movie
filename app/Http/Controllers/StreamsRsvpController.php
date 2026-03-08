@@ -29,7 +29,9 @@ class StreamsRsvpController extends Controller
      */
     public function store(StoreStreamsRsvpRequest $request)
     {
-        //
+        StreamsRsvp::create($request->validated());
+
+        return back()->with('success', 'RSVP submitted successfully.');
     }
 
     /**

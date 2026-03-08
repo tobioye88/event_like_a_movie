@@ -11,7 +11,7 @@ class StoreStreamsRsvpRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class StoreStreamsRsvpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'stream_id' => ['required', 'integer', 'exists:streams,id'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:30'],
+            'attendance_type' => ['required', 'in:virtual,physical'],
+            'attending' => ['required', 'in:yes,no,maybe'],
+            'well_wishes' => ['nullable', 'string', 'max:2000'],
         ];
     }
 }

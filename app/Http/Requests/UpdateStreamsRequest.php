@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateStreamsRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateStreamsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +22,27 @@ class UpdateStreamsRequest extends FormRequest
      */
     public function rules(): array
     {
+        $stream = $this->route('stream');
+
         return [
-            //
+            'intro' => ['required', 'string', 'max:255'],
+            'couples_name' => ['required', 'string', 'max:255'],
+            'slug' => [
+                'nullable',
+                'string',
+                'max:255',
+                Rule::unique('streams', 'slug')->ignore($stream?->id),
+            ],
+            'quote' => ['nullable', 'string', 'max:1000'],
+            'event_date' => ['nullable', 'date'],
+            'stream_url' => ['nullable', 'url', 'max:2048'],
+            'description' => ['nullable', 'string'],
+            'love_story' => ['nullable', 'string'],
+            'thumbnail' => ['nullable', 'url', 'max:2048'],
+            'background_image' => ['nullable', 'url', 'max:2048'],
+            'tags' => ['nullable', 'string'],
+            'gallery' => ['nullable', 'string'],
+            'status' => ['required', 'in:active,inactive'],
         ];
     }
 }

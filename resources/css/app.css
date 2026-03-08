@@ -4,7 +4,15 @@
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
-
+/* App Colors  */
+:root {
+  --color-primary: #9b007e;
+  --color-primary-dark: #460039;
+  --color-secondary: #6b7280;
+  --color-accent: #e2cf00;
+  --color-background: #ffc8f6;
+  --color-text: #341732;
+}
 @theme {
   --font-sans:
     "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
@@ -16,6 +24,12 @@
   /* Fonts */
   --font-inter: "inter", sans-serif;
   --font-brygada: "Brygada 1918", serif;
+  --color-primary: #9b007e;
+  --color-primary-dark: #460039;
+  --color-secondary: #6b7280;
+  --color-accent: #e2cf00;
+  --color-background: #ffc8f6;
+  --color-text: #341732;
 }
 
 @layer components {
@@ -80,8 +94,46 @@
   .nav-link > li {
     @apply transition duration-200 ease-in;
   }
-}
 
+  .btn-primary,
+  .btn-secondary,
+  .btn-outline-primary,
+  .btn-outline-secondary,
+  .btn-danger,
+  .btn-outline-danger {
+    @apply inline-flex items-center px-4 py-2 rounded-md font-semibold text-xs uppercase tracking-widest transition ease-in-out duration-150 gap-2;
+  }
+  .btn-primary {
+    @apply bg-primary border border-transparent text-white hover:bg-primary-dark focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2;
+  }
+  .btn-secondary {
+    @apply bg-secondary border border-transparent text-white hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2;
+  }
+  .btn-outline-primary {
+    @apply border border-primary text-primary hover:bg-primary-dark hover:text-white hover:border-white focus:bg-green-500 active:bg-green-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2;
+  }
+  .btn-outline-secondary {
+    @apply border border-secondary text-secondary hover:bg-gray-700 hover:text-white hover:border-white focus:bg-secondary focus:text-white active:bg-secondary focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2;
+  }
+  .btn-danger {
+    @apply border bg-red-800 border-red-800 text-red-100 hover:bg-red-500 hover:text-red-100 focus:bg-amber-500 active:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2;
+  }
+  .btn-outline-danger {
+    @apply border border-red-500 text-red-800 hover:bg-gray-100 focus:bg-amber-500 active:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2;
+  }
+  .input-text {
+    @apply py-2 px-4 border border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md;
+  }
+  .link-primary {
+    @apply text-primary hover:text-primary-dark font-semibold;
+  }
+  .textarea {
+    @apply py-2 px-4 border border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md;
+  }
+  .select {
+    @apply py-2 px-4 border border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md;
+  }
+}
 @layer utilities {
 }
 

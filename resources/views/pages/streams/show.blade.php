@@ -1,7 +1,7 @@
 <x-layout-app title="Contact us: Event like a movie">
   <!-- Hero  -->
   <section class="bg-purple-700"
-    style="background-image: url('{{ asset($stream->metadata?->background_image ?? 'assets/images/bg-homepage-hero.jpg') }}'); background-size: cover; background-position: center;">
+    style="background-image: url('{{ $stream->metadata?->background_image ? getImageUrl($stream->metadata?->background_image) : asset('assets/images/bg-homepage-hero.jpg') }}'); background-size: cover; background-position: center;">
     <div
       class="wrapper-container min-h-screen flex flex-col items-center justify-center text-center md:items-start md:justify-center md:text-start text-white">
       <h6 class="font-brygada mb-6 text-sm font-bold uppercase">{{ $stream->intro }}</h6>
@@ -52,7 +52,7 @@
       </h2>
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         @foreach($stream->gallery as $image)
-        <img class="w-full rounded-lg" src="{{ $image }}" alt="galleryImages">
+        <img class="w-full rounded-lg" src="{{ getImageUrl($image) }}" alt="galleryImages">
         @endforeach
       </div>
       <hr class="border-darkGray/20 my-16 max-w-full border-t" />
@@ -88,11 +88,11 @@
           <div class="text-sm font-medium capitalize md:text-base">Attendance Type: <span class="text-red-400">*</span>
           </div>
           <label for="Phone" class="flex items-center gap-2 text-black">
-            <input type="checkbox" value="virtual" name="attendance_type" id="attendance_type_virtual" />
+            <input type="radio" value="virtual" name="attendance_type" id="attendance_type_virtual" />
             <span>Virtual</span>
           </label>
           <label for="Phone" class="flex items-center gap-2 text-black">
-            <input type="checkbox" value="physical" name="attendance_type" id="attendance_type_physical" />
+            <input type="radio" value="physical" name="attendance_type" id="attendance_type_physical" />
             <span>In Person</span>
           </label>
         </div>
@@ -101,15 +101,15 @@
               class="text-red-400">*</span></label>
           <ul id="wpforms-1055-field_2">
             <li class="choice-1 depth-1">
-              <input type="radio" id="wpforms-1055-field_2_1" name="attending" value="Yes"><label
+              <input type="radio" id="wpforms-1055-field_2_1" name="attending" value="yes"><label
                 class="wpforms-field-label-inline" for="wpforms-1055-field_2_1">Yes</label>
             </li>
             <li class="choice-2 depth-1">
-              <input type="radio" id="wpforms-1055-field_2_2" name="attending" value="No">
+              <input type="radio" id="wpforms-1055-field_2_2" name="attending" value="no">
               <label class="wpforms-field-label-inline" for="wpforms-1055-field_2_2">No</label>
             </li>
             <li class="choice-3 depth-1">
-              <input type="radio" id="wpforms-1055-field_2_3" name="attending" value="Not sure">
+              <input type="radio" id="wpforms-1055-field_2_3" name="attending" value="maybe">
               <label class="wpforms-field-label-inline" for="wpforms-1055-field_2_3">Not sure</label>
             </li>
           </ul>
@@ -117,7 +117,7 @@
         <div class="flex flex-col gap-3 text-black">
           <label for="message" class="text-sm font-medium capitalize md:text-base">Well wishes: <span
               class="text-red-400">*</span></label>
-          <textarea name="message" id="message" cols="4" class="w-full border border-black p-3"></textarea>
+          <textarea name="well_wishes" id="message" cols="4" class="w-full border border-black p-3"></textarea>
           <p class="text-darkGray text-sm">Say something nice to the couples</p>
         </div>
 

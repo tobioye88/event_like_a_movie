@@ -85,33 +85,46 @@
         </div>
       </div>
 
-      <form action="#" class="flex w-full flex-1 flex-col justify-center gap-4 md:pt-14">
+      <form action="{{ route('appointment.store') }}" method="POST"
+        class="flex w-full flex-1 flex-col justify-center gap-4 md:pt-14">
+        @csrf
+        <input type="hidden" name="form_started_at" value="{{ now()->timestamp }}">
+
+        <div style="position: absolute; left: -9999px; top: -9999px;" aria-hidden="true">
+          <label for="company">Company</label>
+          <input type="text" name="company" id="company" tabindex="-1" autocomplete="off">
+        </div>
+
         <div class="flex flex-col gap-3 text-black">
           <label for="name" class="text-sm font-medium capitalize md:text-base">Name: <span
               class="text-red-400">*</span></label>
-          <input type="text" class="w-full border border-black p-3" />
+          <input type="text" id="name" name="name" value="{{ old('name') }}" class="w-full border border-black p-3"
+            required />
         </div>
 
         <div class="flex flex-col gap-3 text-black">
-          <label for="Email" class="text-sm font-medium capitalize md:text-base">Email: <span
+          <label for="email" class="text-sm font-medium capitalize md:text-base">Email: <span
               class="text-red-400">*</span></label>
-          <input type="email" class="w-full border border-black p-3" />
+          <input type="email" id="email" name="email" value="{{ old('email') }}" class="w-full border border-black p-3"
+            required />
         </div>
 
         <div class="flex flex-col gap-3 text-black">
-          <label for="Phone" class="text-sm font-medium capitalize md:text-base">Phone: <span
+          <label for="phone" class="text-sm font-medium capitalize md:text-base">Phone: <span
               class="text-red-400">*</span></label>
-          <input type="number" class="w-full border border-black p-3" />
+          <input type="text" id="phone" name="phone" value="{{ old('phone') }}" class="w-full border border-black p-3"
+            required />
         </div>
 
         <div class="flex flex-col gap-3 text-black">
-          <label for="Message" class="text-sm font-medium capitalize md:text-base">Message: <span
+          <label for="message" class="text-sm font-medium capitalize md:text-base">Message: <span
               class="text-red-400">*</span></label>
-          <textarea name="Message" id="#" cols="4" class="w-full border border-black p-3"></textarea>
+          <textarea name="message" id="message" cols="4" class="w-full border border-black p-3"
+            required>{{ old('message') }}</textarea>
           <p class="text-darkGray text-sm">Tell use about your request</p>
         </div>
 
-        <button
+        <button type="submit"
           class="group mr-auto flex cursor-pointer items-center justify-center gap-4 border bg-[#150e1f] px-8 py-4 transition-all duration-300 ease-in-out hover:border-[#150e1f] hover:bg-transparent">
           <span
             class="text-[12px] font-medium tracking-[2px] text-white uppercase transition-colors duration-300 group-hover:text-[#150e1f]">
