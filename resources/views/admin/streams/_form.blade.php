@@ -95,9 +95,15 @@ $backgroundImage = $stream?->metadata?->background_image;
       class="w-full rounded border border-slate-300 px-3 py-2">
     @if($existingGallery !== [])
     <p class="mt-2 text-xs text-slate-500">Current gallery:</p>
-    <div class="mt-1 flex flex-wrap gap-2">
+    <div class="mt-1 flex flex-wrap gap-4">
       @foreach($existingGallery as $image)
-      <img src="{{ $image }}" alt="Gallery image" class="h-16 w-16 rounded border object-cover">
+      <div class="flex flex-col items-center gap-1">
+        <img src="{{ $image }}" alt="Gallery image" class="h-16 w-16 rounded border object-cover">
+        <label class="flex items-center gap-1 text-xs text-red-600">
+          <input type="checkbox" name="delete_gallery[]" value="{{ $image }}">
+          Delete
+        </label>
+      </div>
       @endforeach
     </div>
     @endif

@@ -1,4 +1,4 @@
-@props(['title', 'mainBackground' => 'assets/images/helipad_bg.jpg'])
+@props(['title', 'mainBackground' => 'assets/images/helipad_bg.jpg', 'meta' => null])
 
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -19,6 +19,9 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+  <!-- Meta -->
+  @yield('meta', $meta)
 
   <!-- Scripts -->
   @if(app()->isLocal())

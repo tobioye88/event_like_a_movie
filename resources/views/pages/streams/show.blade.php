@@ -1,4 +1,10 @@
 <x-layout-app title="Contact us: Event like a movie">
+  <x-slot:meta>
+    <meta name="description"
+      content="Contact us for more information about our wedding live streaming services, pricing, and availability. We're here to help you make your special day unforgettable with our high-quality live streaming solutions.">
+    <meta name="keywords" content="contact, wedding live streaming, pricing, availability,
+    wedding streaming services, live stream contact, wedding video streaming, event streaming contact">
+  </x-slot:meta>
   <!-- Hero  -->
   <section class="bg-purple-700"
     style="background-image: url('{{ $stream->metadata?->background_image ? getImageUrl($stream->metadata?->background_image) : asset('assets/images/bg-homepage-hero.jpg') }}'); background-size: cover; background-position: center;">
@@ -41,7 +47,7 @@
       <h2 class="font-brygada text-center text-2xl font-medium text-black md:text-3xl lg:text-6xl mb-12">
         Our Love Story
       </h2>
-      <p class="text-center text-lg text-black/70 max-w-3xl mx-auto">{{ $stream->love_story }}</p>
+      <p class="text-center text-lg text-black/70 max-w-3xl mx-auto">{!! nl2br($stream->love_story) !!}</p>
     </div>
   </section>
 
@@ -61,7 +67,7 @@
   </section>
   @endif
 
-  @if($stream->event_date->isFuture())
+  @if($stream->event_date->isFuture() && !request()->cookie('rsvp_stream_' . $stream->id))
   <!-- RSVP form -->
   <section class="py-24">
     <div class="wrapper-container">

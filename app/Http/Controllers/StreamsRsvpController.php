@@ -31,7 +31,9 @@ class StreamsRsvpController extends Controller
     {
         StreamsRsvp::create($request->validated());
 
-        return back()->with('success', 'RSVP submitted successfully.');
+        return back()
+            ->withCookie(cookie()->forever('rsvp_stream_' . $request->stream_id, true))
+            ->with('success', 'RSVP submitted successfully.');
     }
 
     /**

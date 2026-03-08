@@ -74,9 +74,16 @@ class AdminStreamsController extends Controller
       ? $this->storeImage($request->file('thumbnail'), 'streams/thumbnails')
       : $existingStream?->thumbnail;
 
-    $validated['gallery'] = $request->hasFile('gallery')
-      ? $this->storeMultipleImages($request->file('gallery'), 'streams/gallery')
-      : $existingStream?->gallery;
+    if ($request->hasFile('gallery')) {
+      $newGallery = $this->storeMultipleImages($request->file('gallery'), 'streams/gallery');
+      $validated['gallery'] = $existingStream ? array_merge($existingStream->gallery ?? [], $newGallery ?? []) : $newGallery;
+    } else {
+      $validated['gallery'] = $existingStream?->gallery;
+    }
+
+    if ($request->has('delete_gallery') && is_array($request->input('delete_gallery')) && is_array($validated['gallery'])) {
+      $validated['gallery'] = array_values(array_diff($validated['gallery'], $request->input('delete_gallery')));
+    }
 
     $existingBackground = $existingStream?->metadata?->background_image;
     $newBackground = $request->hasFile('background_image')

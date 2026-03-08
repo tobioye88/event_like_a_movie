@@ -43,6 +43,8 @@ class UpdateStreamsRequest extends FormRequest
             'tags' => ['nullable', 'string'],
             'gallery' => ['nullable', 'array'],
             'gallery.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'delete_gallery' => ['nullable', 'array'],
+            'delete_gallery.*' => ['string'],
             'status' => ['required', 'in:active,inactive'],
         ];
     }
