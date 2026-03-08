@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreStreamsRequest;
 use App\Http\Requests\UpdateStreamsRequest;
 use App\Models\Streams;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -26,7 +28,7 @@ class AdminStreamsController extends Controller
 
   public function store(StoreStreamsRequest $request): RedirectResponse
   {
-    Streams::create($this->preparePayload($request->validated()));
+    Streams::create($this->preparePayload($request));
 
     return redirect()->route('admin.streams.index')->with('success', 'Stream created successfully.');
   }
@@ -40,7 +42,7 @@ class AdminStreamsController extends Controller
 
   public function update(UpdateStreamsRequest $request, Streams $stream): RedirectResponse
   {
-    $stream->update($this->preparePayload($request->validated()));
+    $stream->update($this->preparePayload($request, $stream));
 
     return redirect()->route('admin.streams.index')->with('success', 'Stream updated successfully.');
   }
@@ -55,11 +57,12 @@ class AdminStreamsController extends Controller
   /**
    * Normalize request fields to match db columns.
    *
-   * @param array<string, mixed> $validated
    * @return array<string, mixed>
    */
-  private function preparePayload(array $validated): array
+  private function preparePayload(FormRequest $request, ?Streams $existingStream = null): array
   {
+    $validated = $request->validated();
+
     $slug = trim((string) ($validated['slug'] ?? ''));
 
     $validated['slug'] = $slug !== ''
@@ -67,14 +70,63 @@ class AdminStreamsController extends Controller
       : Str::slug((string) ($validated['couples_name'] ?? 'stream-' . Str::random(6)));
 
     $validated['tags'] = $this->parseList($validated['tags'] ?? null);
-    $validated['gallery'] = $this->parseList($validated['gallery'] ?? null);
+    $validated['thumbnail'] = $request->hasFile('thumbnail')
+      ? $this->storeImage($request->file('thumbnail'), 'streams/thumbnails')
+      : $existingStream?->thumbnail;
 
-    $backgroundImage = trim((string) ($validated['background_image'] ?? ''));
-    $validated['metadata'] = $backgroundImage === '' ? null : ['background_image' => $backgroundImage];
+    $validated['gallery'] = $request->hasFile('gallery')
+      ? $this->storeMultipleImages($request->file('gallery'), 'streams/gallery')
+      : $existingStream?->gallery;
+
+    $existingBackground = $existingStream?->metadata?->background_image;
+    $newBackground = $request->hasFile('background_image')
+      ? $this->storeImage($request->file('background_image'), 'streams/backgrounds')
+      : $existingBackground;
+
+    $validated['metadata'] = $newBackground ? ['background_image' => $newBackground] : null;
 
     unset($validated['background_image']);
 
     return $validated;
+  }
+
+  private function storeImage(?UploadedFile $file, string $directory): ?string
+  {
+    if (! $file) {
+      return null;
+    }
+
+    $path = $file->store($directory, 'public');
+
+    return '/storage/' . ltrim($path, '/');
+  }
+
+  /**
+   * @param array<int, UploadedFile>|UploadedFile|null $files
+   * @return array<int, string>|null
+   */
+  private function storeMultipleImages(array|UploadedFile|null $files, string $directory): ?array
+  {
+    if ($files instanceof UploadedFile) {
+      $files = [$files];
+    }
+
+    if (! is_array($files) || $files === []) {
+      return null;
+    }
+
+    $stored = [];
+
+    foreach ($files as $file) {
+      if (! $file instanceof UploadedFile) {
+        continue;
+      }
+
+      $path = $file->store($directory, 'public');
+      $stored[] = '/storage/' . ltrim($path, '/');
+    }
+
+    return $stored === [] ? null : $stored;
   }
 
   /**

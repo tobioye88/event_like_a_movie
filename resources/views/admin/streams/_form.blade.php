@@ -1,8 +1,8 @@
 @php
 $stream = $stream ?? null;
 $tagsText = old('tags', $stream && is_array($stream->tags) ? implode(', ', $stream->tags) : '');
-$galleryText = old('gallery', $stream && is_array($stream->gallery) ? implode("\n", $stream->gallery) : '');
-$backgroundImage = old('background_image', $stream?->metadata?->background_image);
+$existingGallery = is_array($stream?->gallery) ? $stream->gallery : [];
+$backgroundImage = $stream?->metadata?->background_image;
 @endphp
 
 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -44,15 +44,23 @@ $backgroundImage = old('background_image', $stream?->metadata?->background_image
   </div>
 
   <div class="md:col-span-2">
-    <label for="thumbnail" class="mb-1 block text-sm font-medium">Thumbnail URL</label>
-    <input type="url" id="thumbnail" name="thumbnail" value="{{ old('thumbnail', $stream?->thumbnail) }}"
+    <label for="thumbnail" class="mb-1 block text-sm font-medium">Thumbnail Image</label>
+    <input type="file" id="thumbnail" name="thumbnail" accept="image/*"
       class="w-full rounded border border-slate-300 px-3 py-2">
+    @if($stream?->thumbnail)
+    <p class="mt-2 text-xs text-slate-500">Current thumbnail:</p>
+    <img src="{{ $stream->thumbnail }}" alt="Current thumbnail" class="mt-1 h-20 w-32 rounded border object-cover">
+    @endif
   </div>
 
   <div class="md:col-span-2">
-    <label for="background_image" class="mb-1 block text-sm font-medium">Background Image URL</label>
-    <input type="url" id="background_image" name="background_image" value="{{ $backgroundImage }}"
+    <label for="background_image" class="mb-1 block text-sm font-medium">Background Image</label>
+    <input type="file" id="background_image" name="background_image" accept="image/*"
       class="w-full rounded border border-slate-300 px-3 py-2">
+    @if($backgroundImage)
+    <p class="mt-2 text-xs text-slate-500">Current background image:</p>
+    <img src="{{ $backgroundImage }}" alt="Current background" class="mt-1 h-20 w-32 rounded border object-cover">
+    @endif
   </div>
 
   <div class="md:col-span-2">
@@ -82,9 +90,17 @@ $backgroundImage = old('background_image', $stream?->metadata?->background_image
   </div>
 
   <div class="md:col-span-2">
-    <label for="gallery" class="mb-1 block text-sm font-medium">Gallery URLs (one per line or comma-separated)</label>
-    <textarea id="gallery" name="gallery" rows="5"
-      class="w-full rounded border border-slate-300 px-3 py-2">{{ $galleryText }}</textarea>
+    <label for="gallery" class="mb-1 block text-sm font-medium">Gallery Images (multiple)</label>
+    <input type="file" id="gallery" name="gallery[]" accept="image/*" multiple
+      class="w-full rounded border border-slate-300 px-3 py-2">
+    @if($existingGallery !== [])
+    <p class="mt-2 text-xs text-slate-500">Current gallery:</p>
+    <div class="mt-1 flex flex-wrap gap-2">
+      @foreach($existingGallery as $image)
+      <img src="{{ $image }}" alt="Gallery image" class="h-16 w-16 rounded border object-cover">
+      @endforeach
+    </div>
+    @endif
   </div>
 </div>
 

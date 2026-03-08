@@ -1,4 +1,4 @@
-<header class="bg-linear-to-b from-purple-500/70 to-transparent fixed top-0 w-full z-50">
+<header class="bg-linear-to-b from-black/70 to-transparent fixed top-0 w-full z-50">
   <div class="wrapper w-full px-3 md:px-0">
     <nav class="flex items-center justify-between py-8 md:py-10">
       <div class="flex items-center justify-center">

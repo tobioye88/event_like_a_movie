@@ -38,10 +38,11 @@ class UpdateStreamsRequest extends FormRequest
             'stream_url' => ['nullable', 'url', 'max:2048'],
             'description' => ['nullable', 'string'],
             'love_story' => ['nullable', 'string'],
-            'thumbnail' => ['nullable', 'url', 'max:2048'],
-            'background_image' => ['nullable', 'url', 'max:2048'],
+            'thumbnail' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'background_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'tags' => ['nullable', 'string'],
-            'gallery' => ['nullable', 'string'],
+            'gallery' => ['nullable', 'array'],
+            'gallery.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'status' => ['required', 'in:active,inactive'],
         ];
     }
