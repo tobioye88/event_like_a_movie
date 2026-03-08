@@ -45,6 +45,7 @@
     </div>
   </section>
 
+  @if ($stream->gallery && count($stream->gallery) > 0)
   <section class="py-24">
     <div class="wrapper-container">
       <h2 class="font-brygada text-center text-2xl font-medium text-black md:text-3xl lg:text-6xl mb-12">
@@ -58,6 +59,7 @@
       <hr class="border-darkGray/20 my-16 max-w-full border-t" />
     </div>
   </section>
+  @endif
 
   @if($stream->event_date->isFuture())
   <!-- RSVP form -->
