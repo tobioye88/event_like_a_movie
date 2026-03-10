@@ -3,6 +3,7 @@ $stream = $stream ?? null;
 $tagsText = old('tags', $stream && is_array($stream->tags) ? implode(', ', $stream->tags) : '');
 $existingGallery = is_array($stream?->gallery) ? $stream->gallery : [];
 $backgroundImage = $stream?->metadata?->background_image;
+$backgroundImageMobile = $stream?->metadata?->background_image_mobile ?? null;
 @endphp
 
 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -60,6 +61,17 @@ $backgroundImage = $stream?->metadata?->background_image;
     @if($backgroundImage)
     <p class="mt-2 text-xs text-slate-500">Current background image:</p>
     <img src="{{ $backgroundImage }}" alt="Current background" class="mt-1 h-20 w-32 rounded border object-cover">
+    @endif
+  </div>
+
+  <div class="md:col-span-2">
+    <label for="background_image_mobile" class="mb-1 block text-sm font-medium">Mobile Background Image</label>
+    <input type="file" id="background_image_mobile" name="background_image_mobile" accept="image/*"
+      class="w-full rounded border border-slate-300 px-3 py-2">
+    @if($backgroundImageMobile)
+    <p class="mt-2 text-xs text-slate-500">Current mobile background image:</p>
+    <img src="{{ $backgroundImageMobile }}" alt="Current mobile background"
+      class="mt-1 h-20 w-32 rounded border object-cover">
     @endif
   </div>
 

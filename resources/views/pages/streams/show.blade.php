@@ -6,10 +6,18 @@
     wedding streaming services, live stream contact, wedding video streaming, event streaming contact">
   </x-slot:meta>
   <!-- Hero  -->
-  <section class="bg-purple-700"
-    style="background-image: url('{{ $stream->metadata?->background_image ? getImageUrl($stream->metadata?->background_image) : asset('assets/images/bg-homepage-hero.jpg') }}'); background-size: cover; background-position: center;">
+  <section class="bg-purple-700">
+    <!-- absolute background for desktop and mobile -->
+    <div class="absolute top-0 left-0 h-screen w-full z-1">
+      <img
+        src="{{ $stream->metadata?->background_image ? getImageUrl($stream->metadata?->background_image) : asset('assets/images/bg-homepage-hero.jpg') }}"
+        alt="Background Image" class="h-full w-full object-cover hidden md:block" />
+      <img
+        src="{{ isset($stream->metadata?->background_image_mobile)  ? getImageUrl($stream->metadata?->background_image_mobile) : getImageUrl($stream->metadata?->background_image) }}"
+        alt="Background Image" class="h-full w-full object-cover md:hidden" />
+    </div>
     <div
-      class="wrapper-container min-h-screen flex flex-col items-center justify-center text-center md:items-start md:justify-center md:text-start text-white">
+      class="wrapper-container min-h-screen flex flex-col items-center justify-center text-center md:items-start md:justify-center md:text-start text-white z-10 relative">
       <h6 class="font-brygada mb-6 text-sm font-bold uppercase">{{ $stream->intro }}</h6>
 
       <h1 class="font-brygada mb-6 text-[60px] leading-20 sm:text-[70px] md:text-[88px]">

@@ -19,12 +19,12 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (TokenMismatchException $e, $request) {
-            return redirect()->route('admin.login')->withErrors(['error' => 'Your session has expired. Please log in again.']);
+            return redirect()->route('login')->withErrors(['error' => 'Your session has expired. Please log in again.']);
         });
 
         $exceptions->render(function (HttpException $e, $request) {
             if ($e->getStatusCode() === 419) {
-                return redirect()->route('admin.login')->withErrors(['error' => 'Your session has expired. Please log in again.']);
+                return redirect()->route('login')->withErrors(['error' => 'Your session has expired. Please log in again.']);
             }
         });
     })->create();

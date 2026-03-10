@@ -40,6 +40,7 @@ class UpdateStreamsRequest extends FormRequest
             'love_story' => ['nullable', 'string'],
             'thumbnail' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'background_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'background_image_mobile' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'tags' => ['nullable', 'string'],
             'gallery' => ['nullable', 'array'],
             'gallery.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],

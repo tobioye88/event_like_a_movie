@@ -36,6 +36,6 @@ class AdminAuthController extends Controller
     $request->session()->invalidate();
     // $request->session()->regenerateToken();
 
-    return redirect()->route('admin.login')->with('success', 'You are signed out.');
+    return redirect()->route('login')->with('success', 'You are signed out.');
   }
 }

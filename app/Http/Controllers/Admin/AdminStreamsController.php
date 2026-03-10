@@ -86,13 +86,41 @@ class AdminStreamsController extends Controller
     }
 
     $existingBackground = $existingStream?->metadata?->background_image;
+    $existingMobileBackground = $existingStream?->metadata?->background_image_mobile ?? null;
+
+    // delete old background images if new ones are uploaded
+    if ($request->hasFile('background_image') && $existingBackground) {
+      $existingPath = str_replace('/storage/', '', $existingBackground);
+      if (file_exists(public_path('storage/' . $existingPath))) {
+        unlink(public_path('storage/' . $existingPath));
+      }
+    }
+    if ($request->hasFile('background_image_mobile') && $existingMobileBackground) {
+      $existingMobilePath = str_replace('/storage/', '', $existingMobileBackground);
+      if (file_exists(public_path('storage/' . $existingMobilePath))) {
+        unlink(public_path('storage/' . $existingMobilePath));
+      }
+    }
+
     $newBackground = $request->hasFile('background_image')
       ? $this->storeImage($request->file('background_image'), 'streams/backgrounds')
       : $existingBackground;
 
-    $validated['metadata'] = $newBackground ? ['background_image' => $newBackground] : null;
+    $newMobileBackground = $request->hasFile('background_image_mobile')
+      ? $this->storeImage($request->file('background_image_mobile'), 'streams/backgrounds/mobile')
+      : $existingMobileBackground;
+
+    $metadata = [
+      'background_image' => $newBackground,
+      'background_image_mobile' => $newMobileBackground,
+    ];
+
+    $metadata = array_filter($metadata, static fn(mixed $value): bool => is_string($value) && $value !== '');
+
+    $validated['metadata'] = $metadata === [] ? null : $metadata;
 
     unset($validated['background_image']);
+    unset($validated['background_image_mobile']);
 
     return $validated;
   }

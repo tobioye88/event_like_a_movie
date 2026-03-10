@@ -14,7 +14,7 @@ class EnsureAdminAuthenticated
   public function handle(Request $request, Closure $next): Response
   {
     if (! $request->session()->get('is_admin_authenticated', false)) {
-      return redirect()->route('admin.login')->with('error', 'Please sign in to access the admin section.');
+      return redirect()->route('login')->with('error', 'Please sign in to access the admin section.');
     }
 
     return $next($request);
