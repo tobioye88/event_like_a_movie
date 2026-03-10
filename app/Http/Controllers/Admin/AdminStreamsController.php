@@ -82,6 +82,13 @@ class AdminStreamsController extends Controller
     }
 
     if ($request->has('delete_gallery') && is_array($request->input('delete_gallery')) && is_array($validated['gallery'])) {
+      // delete old gallery images
+      foreach ($request->input('delete_gallery') as $deletePath) {
+        $existingPath = str_replace('/storage/', '', $deletePath);
+        if (file_exists(public_path('storage/' . $existingPath))) {
+          unlink(public_path('storage/' . $existingPath));
+        }
+      }
       $validated['gallery'] = array_values(array_diff($validated['gallery'], $request->input('delete_gallery')));
     }
 
