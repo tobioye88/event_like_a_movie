@@ -6,9 +6,9 @@
     wedding streaming services, live stream contact, wedding video streaming, event streaming contact">
   </x-slot:meta>
   <!-- Hero  -->
-  <section class="bg-purple-700 overflow-clip">
+  <section class="bg-purple-700">
     <!-- absolute background for desktop and mobile -->
-    <div class="absolute top-0 left-0 h-screen w-full z-1">
+    <div class="absolute top-0 left-0 h-screen w-full z-1 overflow-clip">
       <img
         src="{{ $stream->metadata?->background_image ? getImageUrl($stream->metadata?->background_image) : asset('assets/images/bg-homepage-hero.jpg') }}"
         alt="Background Image" class="h-full w-full object-cover hidden md:block" />
