@@ -6,7 +6,7 @@
     wedding streaming services, live stream contact, wedding video streaming, event streaming contact">
   </x-slot:meta>
   <!-- Hero  -->
-  <section class="bg-purple-700">
+  <section class="bg-purple-700 overflow-clip">
     <!-- absolute background for desktop and mobile -->
     <div class="absolute top-0 left-0 h-screen w-full z-1">
       <img
