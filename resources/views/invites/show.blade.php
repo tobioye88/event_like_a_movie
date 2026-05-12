@@ -51,9 +51,9 @@
 
       <div class="absolute inset-0 z-20 flex flex-col justify-end p-8 md:p-16">
         <div
-          class="dark-glass-panel p-6 md:p-10 rounded-2xl border border-white/10 shadow-2xl transition duration-500 hover:bg-slate-900/80">
-          <p class="text-xs md:text-sm font-semibold uppercase tracking-[0.2em] mb-4"
-            style="color: {{ $occasion->theme_color ?? '#e2e8f0' }}">
+          class="p-6 md:p-10 rounded-2xl border border-white/10 shadow-2xl transition duration-500 hover:bg-slate-900/80">
+          <p class="text-xs md:text-sm font-semibold uppercase tracking-[0.2em] mb-4 text-white test-shadow-lg">
+            >
             You are cordially invited
           </p>
           <h1 class="font-serif text-4xl lg:text-6xl lg:text-7xl font-bold leading-tight text-white mb-6">

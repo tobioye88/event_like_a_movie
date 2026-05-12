@@ -126,7 +126,7 @@ return [
     'super_admin_email' => env('APP_SUPER_ADMIN_EMAIL', 'admin@elm.com'),
     'super_admin_password' => env('APP_SUPER_ADMIN_PASSWORD', 'password!elm.com'),
     'static' => [
-        'version' => env('APP_STATIC_VERSION', '1.0.2'),
+        'version' => env('APP_STATIC_VERSION', '1.0.3'),
     ],
 
 ];
