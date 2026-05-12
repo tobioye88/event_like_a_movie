@@ -2,6 +2,13 @@
   <x-slot:actions>
     <div class="flex flex-wrap gap-2">
       <a href="{{ route('invites.show', $occasion) }}" target="_blank" class="rounded border border-slate-300 px-4 py-2 hover:bg-slate-100">Open Invite</a>
+      @if($occasion->status !== 'active')
+      <form method="POST" action="{{ route('occasions.publish', $occasion) }}">
+        @csrf
+        @method('PATCH')
+        <button type="submit" class="rounded bg-primary px-4 py-2 text-white hover:bg-primary-dark">Publish Occasion</button>
+      </form>
+      @endif
       <a href="{{ route('occasions.edit', $occasion) }}" class="rounded bg-slate-900 px-4 py-2 text-white hover:bg-slate-800">Edit</a>
     </div>
   </x-slot:actions>

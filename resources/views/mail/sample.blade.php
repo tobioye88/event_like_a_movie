@@ -5,7 +5,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>RSVP Confirmation - {{ $rsvp->occasion->title }}</title>
+  <title>RSVP Confirmation - Eos cumque possimus</title>
 </head>
 
 <body
@@ -18,12 +18,11 @@
           style="max-width: 600px; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
           <!-- Header -->
           <tr>
-            <td align="center"
-              style="background-color: {{ $rsvp->occasion->theme_color ?? '#1e293b' }}; padding: 40px 20px;">
-              <h1 style="color: #ffffff; font-size: 28px; margin: 0; font-weight: bold; text-align: center;">{{
-                $rsvp->occasion->title }}</h1>
+            <td align="center" style="background-color: #9b007e; padding: 40px 20px;">
+              <h1 style="color: #ffffff; font-size: 28px; margin: 0; font-weight: bold; text-align: center;">Eos cumque
+                possimus</h1>
               <p style="color: rgba(255, 255, 255, 0.8); font-size: 16px; margin: 10px 0 0 0; text-align: center;">
-                Hosted by {{ $rsvp->occasion->user->name }}</p>
+                Hosted by Test</p>
             </td>
           </tr>
 
@@ -31,10 +30,10 @@
           <tr>
             <td style="padding: 40px 30px;">
               <p style="color: #334155; font-size: 16px; line-height: 24px; margin: 0 0 20px 0;">
-                Hello <strong>{{ $rsvp->name }}</strong>,
+                Hello <strong>Hanae Miller</strong>,
               </p>
               <p style="color: #334155; font-size: 16px; line-height: 24px; margin: 0 0 30px 0;">
-                Thank you! Your RSVP for <strong>{{ $rsvp->occasion->title }}</strong> has been successfully received.
+                Thank you! Your RSVP for <strong>Eos cumque possimus</strong> has been successfully received.
               </p>
 
               <!-- RSVP Status Block -->
@@ -45,16 +44,15 @@
                     <p
                       style="margin: 0; color: #64748b; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">
                       Your Response</p>
-                    <p
-                      style="margin: 10px 0 0 0; color: {{ $rsvp->occasion->theme_color ?? '#0f172a' }}; font-size: 24px; font-weight: bold;">
-                      {{ ucfirst($rsvp->response) }}
+                    <p style="margin: 10px 0 0 0; color: #9b007e; font-size: 24px; font-weight: bold;">
+                      Maybe
                     </p>
                   </td>
                 </tr>
               </table>
 
               <h2
-                style="color: #0f172a; font-size: 20px; margin: 0 0 20px 0; border-bottom: 2px solid {{ $rsvp->occasion->theme_color ?? '#cbd5e1' }}; padding-bottom: 10px; display: inline-block;">
+                style="color: #0f172a; font-size: 20px; margin: 0 0 20px 0; border-bottom: 2px solid #9b007e; padding-bottom: 10px; display: inline-block;">
                 Event Details</h2>
 
               <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 30px;">
@@ -63,7 +61,7 @@
                     <p
                       style="margin: 0 0 5px 0; color: #64748b; font-size: 14px; font-weight: bold; text-transform: uppercase;">
                       When</p>
-                    <p style="margin: 0; color: #334155; font-size: 16px;">{{ $rsvp->occasion->eventAtInTimezone() }}
+                    <p style="margin: 0; color: #334155; font-size: 16px;">December 23, 2018 2:20 AM UTC
                     </p>
                   </td>
                 </tr>
@@ -72,46 +70,37 @@
                     <p
                       style="margin: 0 0 5px 0; color: #64748b; font-size: 14px; font-weight: bold; text-transform: uppercase;">
                       Where</p>
-                    <p style="margin: 0; color: #334155; font-size: 16px;">{{ $rsvp->occasion->fullLocation() }}</p>
+                    <p style="margin: 0; color: #334155; font-size: 16px;">Qui ipsa pariatur, Reiciendis voluptas, Sint
+                      voluptate digni</p>
                   </td>
                 </tr>
-                @if($rsvp->occasion->dress_code_color_one)
                 <tr>
                   <td valign="top" style="padding: 0 0 15px 0;">
                     <p
                       style="margin: 0 0 5px 0; color: #64748b; font-size: 14px; font-weight: bold; text-transform: uppercase;">
                       Dress Code</p>
                     <p style="margin: 0; color: #334155; font-size: 16px;">
-                      {{ $rsvp->occasion->dress_code_color_one_name }}
-                      @if($rsvp->occasion->dress_code_color_two)
-                      and {{ $rsvp->occasion->dress_code_color_two_name }}
-                      @endif
+                      Lilah Gilmore
+                      and Eaton Patton
                     </p>
                   </td>
                 </tr>
-                @endif
-                @if($rsvp->occasion->custom_message)
                 <tr>
                   <td valign="top" style="padding: 0 0 15px 0;">
                     <p
                       style="margin: 0 0 5px 0; color: #64748b; font-size: 14px; font-weight: bold; text-transform: uppercase;">
                       Message from Host</p>
-                    <p style="margin: 0; color: #334155; font-size: 16px; line-height: 24px;">{{
-                      $rsvp->occasion->custom_message }}</p>
+                    <p style="margin: 0; color: #334155; font-size: 16px; line-height: 24px;">Quidem similique ut</p>
                   </td>
                 </tr>
-                @endif
-                @if($rsvp->occasion->accommodation)
                 <tr>
                   <td valign="top" style="padding: 0 0 15px 0;">
                     <p
                       style="margin: 0 0 5px 0; color: #64748b; font-size: 14px; font-weight: bold; text-transform: uppercase;">
                       Accommodation Info</p>
-                    <p style="margin: 0; color: #334155; font-size: 16px; line-height: 24px;">{{
-                      $rsvp->occasion->accommodation }}</p>
+                    <p style="margin: 0; color: #334155; font-size: 16px; line-height: 24px;">Et ut soluta ullam c</p>
                   </td>
                 </tr>
-                @endif
               </table>
 
               <!-- CTA Button -->
@@ -120,10 +109,9 @@
                   <td align="center" style="padding: 20px 0;">
                     <table border="0" cellspacing="0" cellpadding="0">
                       <tr>
-                        <td align="center" style="border-radius: 6px;"
-                          bgcolor="{{ $rsvp->occasion->theme_color ?? '#0f172a' }}">
-                          <a href="{{ route('invites.show', $rsvp->occasion) }}" target="_blank"
-                            style="font-size: 16px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 6px; border: 1px solid {{ $rsvp->occasion->theme_color ?? '#0f172a' }}; display: inline-block; font-weight: bold;">View
+                        <td align="center" style="border-radius: 6px;" bgcolor="#9b007e">
+                          <a href="https://elm.test/invites/eos-cumque-possimus" target="_blank"
+                            style="font-size: 16px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 6px; border: 1px solid #9b007e; display: inline-block; font-weight: bold;">View
                             Full Invitation</a>
                         </td>
                       </tr>
@@ -139,7 +127,7 @@
           <tr>
             <td align="center" style="background-color: #f8fafc; padding: 20px 30px; border-top: 1px solid #e2e8f0;">
               <p style="margin: 0; color: #94a3b8; font-size: 14px;">
-                &copy; {{ date('Y') }} {{ $rsvp->occasion->user->name }}. All rights reserved.<br>
+                &copy; 2026 Test. All rights reserved.<br>
                 You received this email because you RSVP'd to an occasion.
               </p>
             </td>

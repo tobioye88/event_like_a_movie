@@ -1,182 +1,316 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>{{ $occasion->title }} Invite</title>
+  <title>{{ $occasion->title }} - Invitation</title>
   @if(app()->isLocal())
   @vite(['resources/css/app.css', 'resources/js/app.js'])
   @else
   <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}?v={{ config('app.static.version') }}">
   @endif
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .font-serif {
+      font-family: 'Playfair Display', serif;
+    }
+
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .dark-glass-panel {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+  </style>
 </head>
 
-<body class="min-h-screen bg-slate-950 text-white">
-  <main class="min-h-screen bg-cover bg-center"
-    style="background-image: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.72)), url('{{ $occasion->background_image ? getImageUrl($occasion->background_image) : asset('assets/images/bg-homepage-hero.jpg') }}');">
-    <div class="mx-auto flex min-h-screen max-w-5xl flex-col justify-center px-4 py-12">
-      <section class="max-w-2xl">
-        <p class="text-sm font-semibold uppercase tracking-widest" style="color: {{ $occasion->theme_color }}">You are
-          invited</p>
-        <h1 class="font-brygada mt-4 text-5xl font-semibold md:text-7xl">{{ $occasion->title }}</h1>
-        <p class="mt-4 text-lg text-white/80">Hosted by {{ $occasion->user->name }}.</p>
-      </section>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-rose-200 selection:text-rose-900">
+  <main class="relative min-h-screen w-full flex flex-col md:flex-row">
 
-      @if(session('success'))
-      <div class="mt-8 max-w-2xl rounded border border-emerald-200 bg-emerald-50 p-3 text-emerald-900">{{
-        session('success') }}</div>
-      @endif
+    <!-- Hero Image Section (Left on Desktop, Top on Mobile) -->
+    <div class="relative w-full min-h-[50vh] md:w-1/2 md:fixed md:top-0 md:left-0 md:h-screen md:min-h-screen">
+      <div class="absolute inset-0 block md:hidden bg-gradient-to-t from-slate-900/90 to-transparent z-10"></div>
+      <img
+        src="{{ $occasion->background_image ? getImageUrl($occasion->background_image) : asset('assets/images/bg-homepage-hero.jpg') }}"
+        alt="{{ $occasion->title }}" class="w-full h-full object-cover absolute inset-0">
 
-      <div class="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div class="absolute inset-0 bg-black/30 md:bg-black/20 mix-blend-multiply"></div>
+
+      <div class="absolute inset-0 z-20 flex flex-col justify-end p-8 md:p-16 md:justify-center">
+        <div
+          class="dark-glass-panel p-6 md:p-10 rounded-2xl border border-white/10 shadow-2xl transition duration-500 hover:bg-slate-900/80">
+          <p class="text-xs md:text-sm font-semibold uppercase tracking-[0.2em] mb-4"
+            style="color: {{ $occasion->theme_color ?? '#e2e8f0' }}">
+            You are cordially invited
+          </p>
+          <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl font-bold leading-tight text-white mb-6">
+            {{ $occasion->title }}
+          </h1>
+          <div class="flex items-center gap-4 text-white/80">
+            <div class="w-12 h-[1px] bg-white/40"></div>
+            <p class="text-lg md:text-xl font-light">Hosted by {{ $occasion->user->name }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Section (Right on Desktop, Bottom on Mobile) -->
+    <div class="w-full md:w-1/2 md:ml-auto min-h-screen bg-slate-50 relative z-30">
+      <div class="max-w-2xl mx-auto px-6 py-12 md:px-12 md:py-20 lg:py-24">
+
+        @if(session('success'))
+        <div
+          class="mb-10 rounded-xl border border-emerald-200 bg-emerald-50 p-6 flex items-start gap-4 shadow-sm animate-fade-in-up">
+          <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-emerald-800 font-medium text-lg">Thank you!</h3>
+            <p class="text-emerald-700 mt-1">{{ session('success') }}</p>
+          </div>
+        </div>
+        @endif
+
         @if($hasRsvped)
-        <section class="rounded-lg bg-white p-6 text-slate-900">
-          <h2 class="font-brygada text-5xl font-semibold mb-3">Occasion Details</h2>
-          <div class="h-1 w-1/5" style="background-color: {{ $occasion->theme_color }}"></div>
-          <div class="mt-5 space-y-8">
-            <div class="flex gap-2">
-              <div>
-                <svg class="w-16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                  <g id="SVGRepo_iconCarrier">
-                    <path
-                      d="M20 10V7C20 5.89543 19.1046 5 18 5H6C4.89543 5 4 5.89543 4 7V10M20 10V19C20 20.1046 19.1046 21 18 21H6C4.89543 21 4 20.1046 4 19V10M20 10H4M8 3V7M16 3V7"
-                      stroke="{{ $occasion->theme_color }}" stroke-width="2" stroke-linecap="round"></path>
-                    <rect x="6" y="12" width="3" height="3" rx="0.5" fill="{{ $occasion->theme_color }}"></rect>
-                    <rect x="10.5" y="12" width="3" height="3" rx="0.5" fill="{{ $occasion->theme_color }}"></rect>
-                    <rect x="15" y="12" width="3" height="3" rx="0.5" fill="{{ $occasion->theme_color }}"></rect>
-                  </g>
+        <div class="space-y-12 animate-fade-in-up">
+          <div class="text-center md:text-left">
+            <h2 class="font-serif text-3xl md:text-4xl text-slate-900 mb-4">Event Details</h2>
+            <div class="h-1 w-24 mx-auto md:mx-0 rounded-full"
+              style="background-color: {{ $occasion->theme_color ?? '#334155' }}"></div>
+          </div>
+
+          <!-- Details Grid -->
+          <div class="grid grid-cols-1 gap-8">
+            <!-- Time -->
+            <div
+              class="flex flex-col md:flex-row gap-4 p-6 rounded-2xl bg-white shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+              <div class="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
+                style="background-color: {{ $occasion->theme_color ?? '#e2e8f0' }}20">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"
+                  style="color: {{ $occasion->theme_color ?? '#475569' }}">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
                 </svg>
               </div>
               <div>
-                <p class="font-semibold text-gray-500">Date and time:</p>
-                <p class="text-2xl">{{ $occasion->eventAtInTimezone() }}</p>
+                <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-1">When</h3>
+                <p class="text-lg md:text-xl font-medium text-slate-800">{{ $occasion->eventAtInTimezone() }}</p>
               </div>
             </div>
 
-            <div class="flex gap-2">
-              <div>
-                <svg class="w-16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                  <g id="SVGRepo_iconCarrier">
-                    <path
-                      d="M12 21C15.5 17.4 19 14.1764 19 10.2C19 6.22355 15.866 3 12 3C8.13401 3 5 6.22355 5 10.2C5 14.1764 8.5 17.4 12 21Z"
-                      stroke="{{ $occasion->theme_color }}" stroke-width="2" stroke-linecap="round"
-                      stroke-linejoin="round"></path>
-                  </g>
+            <!-- Location -->
+            <div
+              class="flex flex-col md:flex-row gap-4 p-6 rounded-2xl bg-white shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+              <div class="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
+                style="background-color: {{ $occasion->theme_color ?? '#e2e8f0' }}20">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"
+                  style="color: {{ $occasion->theme_color ?? '#475569' }}">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
                 </svg>
               </div>
               <div>
-                <p class="font-semibold text-gray-500">Location:</p>
-                <p class="text-2xl">{{ $occasion->fullLocation() }}</p>
+                <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-1">Where</h3>
+                <p class="text-lg md:text-xl font-medium text-slate-800">{{ $occasion->fullLocation() }}</p>
               </div>
             </div>
 
-            <div class="flex gap-2">
-              <div>
-                <svg class="w-16" version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32.00 32.00" xml:space="preserve"
-                  fill="{{ $occasion->theme_color }}" stroke="{{ $occasion->theme_color }}" stroke-width="0.736">
-                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                  <g id="SVGRepo_iconCarrier">
-                    <g>
-                      <path style="fill: {{ $occasion->theme_color }}"
-                        d="M21,19.29v1.414L15.704,26H14.29L21,19.29z M10.29,26h1.414l8.97-8.969 c-0.118-0.364-0.265-0.695-0.418-0.998L10.29,26z M18.29,26h1.414L21,24.704V23.29L18.29,26z M10,22.29v1.414l9.227-9.226 C18.959,14.171,18.75,14,18.75,14c0.001-0.166,0.011-0.32,0.019-0.478L10,22.29z M19.425,10.279C20.098,8.678,21,7.968,21,7.968 l0.341-1.019L10.055,18.235c-0.034,0.25-0.049,0.472-0.055,0.742v0.727L19.425,10.279z M16.704,1H15.29L9.579,6.711L9.934,7.77 L16.704,1z M21.126,4.578l-0.968-0.447l-8.062,8.062c0.065,0.395,0.11,0.821,0.133,1.281L21.126,4.578z M18.389,3.315l-0.703-0.324 L17.68,2.61l-6.623,6.623c0.162,0.266,0.325,0.575,0.477,0.937L18.389,3.315z">
-                      </path>
-                      <path style="fill: {{ $occasion->theme_color }}"
-                        d="M21.586,8.778c0.169-0.122,0.296-0.295,0.362-0.493l1-2.986c0.162-0.484-0.066-1.012-0.529-1.225 l-3.744-1.728l-0.024-1.363C18.642,0.437,18.197,0,17.652,0h-4.304c-0.545,0-0.99,0.437-1,0.983l-0.024,1.363L8.581,4.074 C8.118,4.287,7.89,4.815,8.052,5.299l1,2.986c0.066,0.198,0.193,0.371,0.362,0.493c0.061,0.047,1.676,1.326,1.825,4.806 C10.531,14.322,9.061,16.18,9,18.955L9,26c0,0.552,0.448,1,1,1h5v4.5c0,0.276,0.224,0.5,0.5,0.5s0.5-0.224,0.5-0.5V27h5 c0.552,0,1-0.448,1-1v-7.023c-0.06-2.753-1.538-4.641-2.24-5.386C19.911,10.088,21.568,8.791,21.586,8.778z M18.75,14 c0,0,2.182,1.867,2.25,4.977V26H10v-7.023C10.07,15.806,12.25,14,12.25,14C12.215,9.569,10,7.968,10,7.968L9,4.982l4.313-1.991 L13.348,1h4.304l0.035,1.991L22,4.982l-1,2.986C21,7.968,18.785,9.569,18.75,14z">
-                      </path>
-                    </g>
-                  </g>
+            <!-- Dress Code -->
+            @if($occasion->dress_code_color_one)
+            <div
+              class="flex flex-col md:flex-row gap-4 p-6 rounded-2xl bg-white shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+              <div class="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
+                style="background-color: {{ $occasion->theme_color ?? '#e2e8f0' }}20">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"
+                  style="color: {{ $occasion->theme_color ?? '#475569' }}">
+                  <path
+                    d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z">
+                  </path>
                 </svg>
               </div>
-              <div>
-                <p class="font-semibold text-gray-500">Dress code colors</p>
-                <div class="mt-2 flex gap-3">
-                  <div class="flex items-center gap-2">
-                    <span class="h-10 w-10 rounded-full border-4 border-slate-300"
-                      style="background: {{ $occasion->dress_code_color_one }}"></span>
-                    <span class="h-10 w-10 rounded-full border-4 border-slate-300"
-                      style="background: {{ $occasion->dress_code_color_two }}"></span>
+              <div class="w-full">
+                <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-3">Dress Code</h3>
+                <div class="flex flex-wrap items-center gap-4">
+                  <div class="flex -space-x-3">
+                    <div class="w-10 h-10 rounded-full border-4 border-white shadow-sm"
+                      style="background-color: {{ $occasion->dress_code_color_one }}"></div>
+                    @if($occasion->dress_code_color_two)
+                    <div class="w-10 h-10 rounded-full border-4 border-white shadow-sm"
+                      style="background-color: {{ $occasion->dress_code_color_two }}"></div>
+                    @endif
                   </div>
-                  <div class="flex items-center gap-2">
-                    <span class="block">{{ $occasion->dress_code_color_one_name }}</span> and
-                    <span>{{ $occasion->dress_code_color_two_name }}</span>
-                  </div>
+                  <p class="text-lg font-medium text-slate-800">
+                    {{ $occasion->dress_code_color_one_name }}
+                    @if($occasion->dress_code_color_two)
+                    <span class="text-slate-500 font-normal">and</span> {{ $occasion->dress_code_color_two_name }}
+                    @endif
+                  </p>
                 </div>
               </div>
             </div>
+            @endif
+          </div>
 
+          <!-- Extra Info -->
+          @if($occasion->custom_message || $occasion->accommodation)
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
             @if($occasion->custom_message)
-            <div class="bg-gray-200 rounded-xl p-4">
-              <span class="font-semibold text-gray-500">Message</span>
-              <p>{{ $occasion->custom_message }}</p>
+            <div class="bg-slate-100/80 p-6 rounded-2xl">
+              <h4 class="font-serif text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Message
+              </h4>
+              <p class="text-slate-600 leading-relaxed text-sm">{!! nl2br(e($occasion->custom_message)) !!}</p>
             </div>
             @endif
+
             @if($occasion->accommodation)
-            <div class="bg-gray-200 rounded-xl p-4">
-              <span class="font-semibold text-gray-500">Accommodation</span>
-              <p>{{ $occasion->accommodation }}</p>
+            <div class="bg-slate-100/80 p-6 rounded-2xl">
+              <h4 class="font-serif text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                  </path>
+                </svg>
+                Accommodation
+              </h4>
+              <p class="text-slate-600 leading-relaxed text-sm">{!! nl2br(e($occasion->accommodation)) !!}</p>
             </div>
             @endif
-
           </div>
-        </section>
+          @endif
+
+        </div>
+        @else
+        <!-- RSVP Form -->
+        <div class="animate-fade-in-up">
+          <div class="text-center md:text-left mb-10">
+            <h2 class="font-serif text-3xl md:text-5xl text-slate-900 mb-4">You're Invited</h2>
+            <p class="text-slate-500 text-lg max-w-md">Please fill out the form below to let us know if you can make it.
+            </p>
+          </div>
+
+          <div
+            class="bg-white rounded-3xl p-6 md:p-10 shadow-xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden">
+            <!-- Decorative accent -->
+            <div
+              class="absolute top-0 right-0 w-32 h-32 transform translate-x-16 -translate-y-16 rounded-full opacity-20"
+              style="background-color: {{ $occasion->theme_color ?? '#e2e8f0' }}"></div>
+
+            <form method="POST" action="{{ route('invites.rsvp.store', $occasion) }}" class="space-y-6 relative z-10">
+              @csrf
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label for="name" class="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
+                  <input type="text" id="name" name="name" value="{{ old('name') }}" required
+                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:border-transparent block p-3.5 transition-shadow"
+                    style="--tw-ring-color: {{ $occasion->theme_color ?? '#3b82f6' }}50">
+                </div>
+
+                <div>
+                  <label for="email" class="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+                  <input type="email" id="email" name="email" value="{{ old('email') }}" required
+                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:border-transparent block p-3.5 transition-shadow"
+                    style="--tw-ring-color: {{ $occasion->theme_color ?? '#3b82f6' }}50">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label for="phone" class="block text-sm font-medium text-slate-700 mb-2">Phone Number</label>
+                  <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" required
+                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:border-transparent block p-3.5 transition-shadow"
+                    style="--tw-ring-color: {{ $occasion->theme_color ?? '#3b82f6' }}50">
+                </div>
+
+                <div>
+                  <label for="response" class="block text-sm font-medium text-slate-700 mb-2">Will you attend?</label>
+                  <select id="response" name="response" required
+                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:border-transparent block p-3.5 transition-shadow appearance-none"
+                    style="--tw-ring-color: {{ $occasion->theme_color ?? '#3b82f6' }}50">
+                    <option value="" disabled @selected(!old('response'))>Select an option</option>
+                    <option value="yes" @selected(old('response')==='yes' )>Joyfully Accept</option>
+                    <option value="maybe" @selected(old('response')==='maybe' )>Tentatively Yes</option>
+                    <option value="no" @selected(old('response')==='no' )>Regretfully Decline</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label for="note" class="block text-sm font-medium text-slate-700 mb-2">Dietary Requirements or Notes
+                  (Optional)</label>
+                <textarea id="note" name="note" rows="3"
+                  class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:border-transparent block p-3.5 transition-shadow resize-none"
+                  style="--tw-ring-color: {{ $occasion->theme_color ?? '#3b82f6' }}50">{{ old('note') }}</textarea>
+              </div>
+
+              <div class="pt-4">
+                <button type="submit"
+                  class="w-full md:w-auto px-8 py-4 text-white font-medium rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex justify-center items-center gap-2"
+                  style="background-color: {{ $occasion->theme_color ?? '#0f172a' }};">
+                  <span>Submit RSVP</span>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3">
+                    </path>
+                  </svg>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
         @endif
 
-        <section class="col-span-1 overflow-hidden rounded-lg bg-white text-gray-800">
-          <div class="min-h-80 bg-slate-100">
-            <img
-              src="{{ $occasion->side_image ? getImageUrl($occasion->side_image) : ($occasion->background_image ? getImageUrl($occasion->background_image) : asset('assets/images/camera.png')) }}"
-              alt="{{ $occasion->title }} RSVP image" class="h-full w-full object-cover">
-          </div>
-        </section>
-
-        @if(!$hasRsvped)
-        <section class="p-6">
-          <h2 class="font-brygada text-3xl font-semibold">RSVP</h2>
-          <form method="POST" action="{{ route('invites.rsvp.store', $occasion) }}" class="mt-5 space-y-4">
-            @csrf
-            <div>
-              <label for="name" class="mb-1 block text-sm font-medium">Name</label>
-              <input type="text" id="name" name="name" value="{{ old('name') }}"
-                class="w-full rounded border border-slate-300 px-3 py-2" required>
-            </div>
-            <div>
-              <label for="email" class="mb-1 block text-sm font-medium">Email</label>
-              <input type="email" id="email" name="email" value="{{ old('email') }}"
-                class="w-full rounded border border-slate-300 px-3 py-2" required>
-            </div>
-            <div>
-              <label for="phone" class="mb-1 block text-sm font-medium">Phone</label>
-              <input type="tel" id="phone" name="phone" value="{{ old('phone') }}"
-                class="w-full rounded border border-slate-300 px-3 py-2" required>
-            </div>
-            <div>
-              <label for="response" class="mb-1 block text-sm font-medium">Can you attend?</label>
-              <select id="response" name="response" class="w-full rounded border border-slate-300 px-3 py-2" required>
-                <option value="yes" @selected(old('response')==='yes' )>Yes</option>
-                <option value="maybe" @selected(old('response')==='maybe' )>Maybe</option>
-                <option value="no" @selected(old('response')==='no' )>No</option>
-              </select>
-            </div>
-            <div>
-              <label for="note" class="mb-1 block text-sm font-medium">Note</label>
-              <textarea id="note" name="note" rows="3"
-                class="w-full rounded border border-slate-300 px-3 py-2">{{ old('note') }}</textarea>
-            </div>
-            <button type="submit" class="rounded px-5 py-3 font-semibold text-white"
-              style="background: {{ $occasion->theme_color }}">Submit RSVP</button>
-          </form>
-        </section>
+        @if($occasion->side_image)
+        <!-- Additional Optional Image for mobile or lower section -->
+        <div class="mt-16 block rounded-2xl overflow-hidden shadow-lg relative">
+          <img src="{{ getImageUrl($occasion->side_image) }}" alt="Details" class="w-full h-full object-cover">
+        </div>
         @endif
+
+        <!-- Footer -->
+        <footer class="mt-20 pt-8 border-t border-slate-200 text-center md:text-left text-slate-400 text-sm pb-8">
+          <p>&copy; {{ date('Y') }} {{ $occasion->user->name }}. All rights reserved.</p>
+        </footer>
       </div>
     </div>
   </main>
+
+  <style>
+    .animate-fade-in-up {
+      animation: fadeInUp 0.8s ease-out forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </body>
 
 </html>

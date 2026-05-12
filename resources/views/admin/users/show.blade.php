@@ -1,4 +1,8 @@
 <x-admin.layouts.app :title="'User: ' . $managedUser->name">
+  <div class="mb-4 flex justify-end">
+    <a href="{{ route('admin.users.edit', $managedUser) }}" class="rounded bg-slate-900 px-4 py-2 text-white hover:bg-slate-800">Edit User</a>
+  </div>
+
   <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
     <section class="rounded-xl border border-slate-200 bg-white p-6">
       <h2 class="font-brygada text-2xl font-semibold">Account</h2>

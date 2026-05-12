@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\AdminOccasionController;
 use App\Http\Controllers\Admin\AdminStreamsRsvpController;
 use App\Http\Controllers\Admin\AdminUserController;
 
+// Route::view('/email-template', 'mail.sample');
+
 Route::view('/', 'pages.home')->name('home');
 Route::view('/about', 'pages.about')->name('about');
 Route::view('/contact', 'pages.contact')->name('contact');
@@ -32,6 +34,7 @@ Route::post('/appointment', [AppointmentController::class, 'store'])->name('appo
 
 Route::middleware('auth')->group(function (): void {
   Route::get('/dashboard', UserDashboardController::class)->name('dashboard');
+  Route::patch('/occasions/{occasion}/publish', [UserOccasionController::class, 'publish'])->name('occasions.publish');
   Route::resource('occasions', UserOccasionController::class);
   Route::get('/account', [UserAccountController::class, 'edit'])->name('account.edit');
   Route::delete('/account', [UserAccountController::class, 'destroy'])->name('account.destroy');
@@ -48,7 +51,8 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
     Route::resource('streams', AdminStreamsController::class)->except(['show']);
-    Route::resource('users', AdminUserController::class)->only(['index', 'show', 'update', 'destroy']);
+    Route::resource('users', AdminUserController::class)->except(['destroy']);
+    Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
     Route::resource('occasions', AdminOccasionController::class)->only(['index', 'create', 'store', 'show', 'update', 'destroy']);
 
     Route::get('/stream-rsvps', [AdminStreamsRsvpController::class, 'index'])

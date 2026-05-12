@@ -105,6 +105,47 @@ class AdminOccasionFeatureTest extends TestCase
             ->assertSessionHasErrors();
     }
 
+    public function test_admin_can_create_and_edit_user(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $this->actingAs($admin)
+            ->get(route('admin.users.create'))
+            ->assertOk()
+            ->assertSee('Create User');
+
+        $this->actingAs($admin)
+            ->post(route('admin.users.store'), [
+                'name' => 'New Client',
+                'email' => 'client@example.com',
+                'role' => 'user',
+                'password' => 'password',
+                'password_confirmation' => 'password',
+            ])
+            ->assertRedirect();
+
+        $user = User::where('email', 'client@example.com')->firstOrFail();
+
+        $this->actingAs($admin)
+            ->get(route('admin.users.edit', $user))
+            ->assertOk()
+            ->assertSee('Edit User');
+
+        $this->actingAs($admin)
+            ->put(route('admin.users.update', $user), [
+                'name' => 'Updated Client',
+                'email' => 'updated-client@example.com',
+                'role' => 'user',
+            ])
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('users', [
+            'id' => $user->id,
+            'name' => 'Updated Client',
+            'email' => 'updated-client@example.com',
+        ]);
+    }
+
     private function createOccasion(User $user): Occasion
     {
         return Occasion::create([

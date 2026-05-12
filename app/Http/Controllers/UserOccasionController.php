@@ -35,9 +35,14 @@ class UserOccasionController extends Controller
     {
         $occasion = Occasion::create($this->preparePayload($request));
 
+        if ($occasion->status !== 'active') {
+            return redirect()
+                ->route('occasions.show', $occasion)
+                ->with('success', 'Occasion created successfully. You can publish it when you are ready to share the invite link.');
+        }
         return redirect()
             ->route('occasions.show', $occasion)
-            ->with('success', 'Occasion created. Your invite link is ready to share.');
+            ->with('success', 'Occasion created and published. Your invite link is ready to share.');
     }
 
     public function show(Occasion $occasion): View
@@ -68,6 +73,15 @@ class UserOccasionController extends Controller
         return redirect()
             ->route('occasions.show', $occasion)
             ->with('success', 'Occasion updated successfully.');
+    }
+
+    public function publish(Occasion $occasion): RedirectResponse
+    {
+        $this->authorizeOwner($occasion);
+
+        $occasion->update(['status' => 'active']);
+
+        return back()->with('success', 'Occasion published successfully.');
     }
 
     public function destroy(Occasion $occasion): RedirectResponse

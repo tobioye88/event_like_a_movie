@@ -59,6 +59,28 @@ class UserOccasionFeatureTest extends TestCase
         ]);
     }
 
+    public function test_user_can_publish_draft_occasion_from_show_page(): void
+    {
+        $user = User::factory()->create();
+        $occasion = $this->createOccasion($user, [
+            'status' => 'inactive',
+        ]);
+
+        $this->actingAs($user)
+            ->get(route('occasions.show', $occasion))
+            ->assertOk()
+            ->assertSee('Publish Occasion');
+
+        $this->actingAs($user)
+            ->patch(route('occasions.publish', $occasion))
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('occasions', [
+            'id' => $occasion->id,
+            'status' => 'active',
+        ]);
+    }
+
     public function test_user_can_only_manage_own_occasions(): void
     {
         $owner = User::factory()->create();

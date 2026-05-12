@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
-class UpdateAdminUserRequest extends FormRequest
+class StoreAdminUserRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -15,13 +14,11 @@ class UpdateAdminUserRequest extends FormRequest
 
     public function rules(): array
     {
-        $user = $this->route('user');
-
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user?->id)],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'role' => ['required', 'in:user,admin,super_admin'],
-            'password' => ['nullable', 'confirmed', Password::defaults()],
+            'password' => ['required', 'confirmed', Password::defaults()],
         ];
     }
 }

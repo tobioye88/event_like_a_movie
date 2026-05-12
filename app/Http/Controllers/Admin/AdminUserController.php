@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreAdminUserRequest;
 use App\Http\Requests\UpdateAdminUserRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
@@ -18,6 +20,21 @@ class AdminUserController extends Controller
         ]);
     }
 
+    public function create(): View
+    {
+        return view('admin.users.create');
+    }
+
+    public function store(StoreAdminUserRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+        $this->ensureRoleCanBeAssigned($validated['role']);
+
+        $user = User::create(Arr::only($validated, ['name', 'email', 'password', 'role']));
+
+        return redirect()->route('admin.users.show', $user)->with('success', 'User created successfully.');
+    }
+
     public function show(User $user): View
     {
         return view('admin.users.show', [
@@ -26,15 +43,23 @@ class AdminUserController extends Controller
         ]);
     }
 
+    public function edit(User $user): View
+    {
+        $this->ensureCanManage($user);
+
+        return view('admin.users.edit', [
+            'managedUser' => $user,
+        ]);
+    }
+
     public function update(UpdateAdminUserRequest $request, User $user): RedirectResponse
     {
         $this->ensureCanManage($user);
         $validated = $request->validated();
+        $this->ensureRoleCanBeAssigned($validated['role']);
 
-        if (! $request->user()->isSuperAdmin() && $validated['role'] === 'super_admin') {
-            throw ValidationException::withMessages([
-                'role' => 'Only a super admin can assign the super admin role.',
-            ]);
+        if (($validated['password'] ?? null) === null) {
+            unset($validated['password']);
         }
 
         $user->update($validated);
@@ -61,6 +86,15 @@ class AdminUserController extends Controller
     {
         if ($user->isSuperAdmin() && ! auth()->user()->isSuperAdmin()) {
             abort(403);
+        }
+    }
+
+    private function ensureRoleCanBeAssigned(string $role): void
+    {
+        if (! auth()->user()->isSuperAdmin() && $role === 'super_admin') {
+            throw ValidationException::withMessages([
+                'role' => 'Only a super admin can assign the super admin role.',
+            ]);
         }
     }
 }
