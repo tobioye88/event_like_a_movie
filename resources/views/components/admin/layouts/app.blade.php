@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}?v={{ config('app.static.version') }}">
   <script defer src="{{ asset('assets/js/app.js') }}?v={{ config('app.static.version') }}"></script>
   @endif
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="{{ asset('assets/js/app.js') }}?v={{ config('app.static.version') }}"></script>
   <script defer src="{{ asset('assets/js/main.js') }}?v={{ config('app.static.version') }}"></script>
 </head>
 
