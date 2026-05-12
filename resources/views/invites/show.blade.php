@@ -41,22 +41,22 @@
   <main class="relative min-h-screen w-full flex flex-col md:flex-row">
 
     <!-- Hero Image Section (Left on Desktop, Top on Mobile) -->
-    <div class="relative w-full min-h-[50vh] md:w-1/2 md:fixed md:top-0 md:left-0 md:h-screen md:min-h-screen">
+    <div class="relative w-full min-h-[80vh] md:w-1/2 md:fixed md:top-0 md:left-0 md:h-screen md:min-h-screen">
       <div class="absolute inset-0 block md:hidden bg-gradient-to-t from-slate-900/90 to-transparent z-10"></div>
       <img
         src="{{ $occasion->background_image ? getImageUrl($occasion->background_image) : asset('assets/images/bg-homepage-hero.jpg') }}"
         alt="{{ $occasion->title }}" class="w-full h-full object-cover absolute inset-0">
 
-      <div class="absolute inset-0 bg-black/30 md:bg-black/20 mix-blend-multiply"></div>
+      <div class="absolute inset-0 bg-black/10 md:bg-black/20 mix-blend-multiply"></div>
 
-      <div class="absolute inset-0 z-20 flex flex-col justify-end p-8 md:p-16 md:justify-center">
+      <div class="absolute inset-0 z-20 flex flex-col justify-end p-8 md:p-16">
         <div
           class="dark-glass-panel p-6 md:p-10 rounded-2xl border border-white/10 shadow-2xl transition duration-500 hover:bg-slate-900/80">
           <p class="text-xs md:text-sm font-semibold uppercase tracking-[0.2em] mb-4"
             style="color: {{ $occasion->theme_color ?? '#e2e8f0' }}">
             You are cordially invited
           </p>
-          <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl font-bold leading-tight text-white mb-6">
+          <h1 class="font-serif text-4xl lg:text-6xl lg:text-7xl font-bold leading-tight text-white mb-6">
             {{ $occasion->title }}
           </h1>
           <div class="flex items-center gap-4 text-white/80">
