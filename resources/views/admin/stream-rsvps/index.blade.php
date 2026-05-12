@@ -1,5 +1,5 @@
 <x-admin.layouts.app title="Stream RSVPs">
-  <h1 class="font-brygada mb-6 text-4xl">Stream RSVPs</h1>
+  {{-- <h1 class="font-brygada mb-6 text-4xl">Stream RSVPs</h1> --}}
 
   <div class="overflow-hidden rounded-xl border border-slate-200 bg-white">
     <table class="min-w-full divide-y divide-slate-200 text-sm">

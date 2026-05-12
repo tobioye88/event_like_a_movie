@@ -13,9 +13,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // $middleware->alias([
-        //     'admin' => \App\Http\Middleware\EnsureAdminAuthenticated::class,
-        // ]);
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\EnsureAdminAuthenticated::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (TokenMismatchException $e, $request) {

@@ -5,16 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class AdminAuthController extends Controller
 {
   public function showLogin(): View|RedirectResponse
   {
-    if (session('is_admin_authenticated')) {
+    if (auth()->check() && auth()->user()->isAdmin()) {
       return redirect()->route('admin.dashboard');
     }
 
@@ -24,6 +24,15 @@ class AdminAuthController extends Controller
   public function login(LoginRequest $request): RedirectResponse
   {
     $request->authenticate();
+
+    if (! $request->user()?->isAdmin()) {
+      Auth::guard('web')->logout();
+
+      throw ValidationException::withMessages([
+        'email' => 'This account does not have admin access.',
+      ]);
+    }
+
     $request->session()->regenerate();
 
     return redirect()->route('admin.dashboard')->with('success', 'Welcome to the admin section.');
@@ -34,8 +43,8 @@ class AdminAuthController extends Controller
     // $request->session()->forget('is_admin_authenticated');
     Auth::guard('web')->logout();
     $request->session()->invalidate();
-    // $request->session()->regenerateToken();
+    $request->session()->regenerateToken();
 
-    return redirect()->route('login')->with('success', 'You are signed out.');
+    return redirect()->route('admin.login')->with('success', 'You are signed out.');
   }
 }
