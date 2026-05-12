@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Models\Occasion;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class AdminOccasionFeatureTest extends TestCase
@@ -80,6 +82,79 @@ class AdminOccasionFeatureTest extends TestCase
 
         $occasion = Occasion::where('title', 'Client Gala')->firstOrFail();
         $this->assertSame('2026-08-13 00:00:00', $occasion->event_at->format('Y-m-d H:i:s'));
+    }
+
+    public function test_admin_can_view_all_details_edit_occasion_and_manage_images(): void
+    {
+        Storage::fake('public');
+
+        $admin = User::factory()->admin()->create();
+        $user = User::factory()->create();
+        $occasion = $this->createOccasion($user);
+        $occasion->update([
+            'accommodation' => 'Use the hotel block.',
+            'custom_message' => 'Welcome to the celebration.',
+            'location_country' => 'Nigeria',
+            'location_state' => 'Lagos',
+            'location_address' => '14 Marina Road',
+            'dress_code_color_one_name' => 'Black',
+            'dress_code_color_two_name' => 'Gold',
+            'background_image' => '/storage/occasions/backgrounds/original.jpg',
+        ]);
+
+        Storage::disk('public')->put('occasions/backgrounds/original.jpg', 'old-image');
+
+        $this->actingAs($admin)
+            ->get(route('admin.occasions.show', $occasion))
+            ->assertOk()
+            ->assertSee('Use the hotel block.')
+            ->assertSee('Welcome to the celebration.')
+            ->assertSee('Black')
+            ->assertSee('Gold')
+            ->assertSee('Background Image');
+
+        $this->actingAs($admin)
+            ->get(route('admin.occasions.edit', $occasion))
+            ->assertOk()
+            ->assertSee('Manage Images');
+
+        $this->actingAs($admin)
+            ->put(route('admin.occasions.update', $occasion), [
+                'user_id' => $user->id,
+                'title' => 'Updated Community Dinner',
+                'theme_color' => '#123456',
+                'event_at' => '2026-09-01 17:00:00',
+                'event_timezone' => 'Africa/Lagos',
+                'location_country' => 'Nigeria',
+                'location_state' => 'Abuja',
+                'location_address' => '22 Central Road',
+                'accommodation' => 'Updated hotel details.',
+                'dress_code_color_one' => '#111111',
+                'dress_code_color_one_name' => 'Ebony',
+                'dress_code_color_two' => '#facc15',
+                'dress_code_color_two_name' => 'Gold',
+                'custom_message' => 'Updated message.',
+                'status_action' => 'draft',
+                'side_image' => UploadedFile::fake()->image('side.jpg'),
+            ])
+            ->assertRedirect(route('admin.occasions.show', $occasion));
+
+        $this->assertDatabaseHas('occasions', [
+            'id' => $occasion->id,
+            'title' => 'Updated Community Dinner',
+            'location' => '22 Central Road, Abuja, Nigeria',
+            'status' => 'inactive',
+        ]);
+
+        $occasion->refresh();
+        $this->assertStringStartsWith('/storage/occasions/side-images/', $occasion->side_image);
+
+        $this->actingAs($admin)
+            ->delete(route('admin.occasions.images.destroy', [$occasion, 'background']))
+            ->assertRedirect();
+
+        $this->assertNull($occasion->refresh()->background_image);
+        Storage::disk('public')->assertMissing('occasions/backgrounds/original.jpg');
     }
 
     public function test_admin_can_manage_user_role_but_not_delete_self(): void

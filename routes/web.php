@@ -53,7 +53,10 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
     Route::resource('streams', AdminStreamsController::class)->except(['show']);
     Route::resource('users', AdminUserController::class)->except(['destroy']);
     Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
-    Route::resource('occasions', AdminOccasionController::class)->only(['index', 'create', 'store', 'show', 'update', 'destroy']);
+    Route::delete('/occasions/{occasion}/images/{image}', [AdminOccasionController::class, 'destroyImage'])
+      ->whereIn('image', ['background', 'side'])
+      ->name('occasions.images.destroy');
+    Route::resource('occasions', AdminOccasionController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
 
     Route::get('/stream-rsvps', [AdminStreamsRsvpController::class, 'index'])
       ->name('stream-rsvps.index');

@@ -23,7 +23,12 @@
           <td class="px-4 py-3">{{ $occasion->eventAtInTimezone() }}</td>
           <td class="px-4 py-3">{{ $occasion->rsvps_count }}</td>
           <td class="px-4 py-3">{{ $occasion->statusLabel() }}</td>
-          <td class="px-4 py-3"><a href="{{ route('admin.occasions.show', $occasion) }}" class="text-primary hover:text-primary-dark">Review</a></td>
+          <td class="px-4 py-3">
+            <div class="flex gap-3">
+              <a href="{{ route('admin.occasions.show', $occasion) }}" class="text-primary hover:text-primary-dark">Review</a>
+              <a href="{{ route('admin.occasions.edit', $occasion) }}" class="text-primary hover:text-primary-dark">Edit</a>
+            </div>
+          </td>
         </tr>
         @empty
         <tr>
