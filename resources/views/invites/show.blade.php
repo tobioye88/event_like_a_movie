@@ -86,7 +86,6 @@
         </div>
         @endif
 
-        @if($hasRsvped)
         <div class="space-y-12 animate-fade-in-up">
           <div class="text-center md:text-left">
             <h2 class="font-serif text-3xl md:text-4xl text-slate-900 mb-4">Event Details</h2>
@@ -200,11 +199,11 @@
             @endif
           </div>
           @endif
-
         </div>
-        @else
+
+        @if(!$hasRsvped)
         <!-- RSVP Form -->
-        <div class="animate-fade-in-up">
+        <div class="animate-fade-in-up mt-8">
           <div class="text-center md:text-left mb-10">
             <h2 class="font-serif text-3xl md:text-5xl text-slate-900 mb-4">You're Invited</h2>
             <p class="text-slate-500 text-lg max-w-md">Please fill out the form below to let us know if you can make it.
@@ -245,16 +244,57 @@
                     style="--tw-ring-color: {{ $occasion->theme_color ?? '#3b82f6' }}50">
                 </div>
 
-                <div>
-                  <label for="response" class="block text-sm font-medium text-slate-700 mb-2">Will you attend?</label>
-                  <select id="response" name="response" required
-                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:border-transparent block p-3.5 transition-shadow appearance-none"
-                    style="--tw-ring-color: {{ $occasion->theme_color ?? '#3b82f6' }}50">
-                    <option value="" disabled @selected(!old('response'))>Select an option</option>
-                    <option value="yes" @selected(old('response')==='yes' )>Joyfully Accept</option>
-                    <option value="maybe" @selected(old('response')==='maybe' )>Tentatively Yes</option>
-                    <option value="no" @selected(old('response')==='no' )>Regretfully Decline</option>
-                  </select>
+                <div class="md:col-span-2">
+                  <label class="block text-sm font-medium text-slate-700 mb-4">Will you attend?</label>
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <!-- Yes Option -->
+                    <div>
+                      <input type="radio" name="response" id="response_yes" value="yes" class="peer sr-only" required
+                        @checked(old('response')==='yes' )>
+                      <label for="response_yes"
+                        class="relative flex cursor-pointer flex-col items-center justify-center rounded-xl border border-slate-200 bg-slate-50 p-4 shadow-sm transition-all hover:bg-white peer-checked:border-transparent peer-checked:bg-white peer-checked:ring-2 peer-checked:ring-offset-1"
+                        style="--tw-ring-color: {{ $occasion->theme_color ?? '#3b82f6' }}">
+                        <svg class="mb-2 h-8 w-8 text-emerald-500 transition-transform peer-checked:scale-110"
+                          fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="text-sm font-medium text-slate-900 text-center">Yes!</span>
+                      </label>
+                    </div>
+
+                    <!-- Maybe Option -->
+                    <div>
+                      <input type="radio" name="response" id="response_maybe" value="maybe" class="peer sr-only"
+                        required @checked(old('response')==='maybe' )>
+                      <label for="response_maybe"
+                        class="relative flex cursor-pointer flex-col items-center justify-center rounded-xl border border-slate-200 bg-slate-50 p-4 shadow-sm transition-all hover:bg-white peer-checked:border-transparent peer-checked:bg-white peer-checked:ring-2 peer-checked:ring-offset-1"
+                        style="--tw-ring-color: {{ $occasion->theme_color ?? '#3b82f6' }}">
+                        <svg class="mb-2 h-8 w-8 text-amber-500 transition-transform peer-checked:scale-110" fill="none"
+                          viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="text-sm font-medium text-slate-900 text-center">Maybe</span>
+                      </label>
+                    </div>
+
+                    <!-- No Option -->
+                    <div>
+                      <input type="radio" name="response" id="response_no" value="no" class="peer sr-only" required
+                        @checked(old('response')==='no' )>
+                      <label for="response_no"
+                        class="relative flex cursor-pointer flex-col items-center justify-center rounded-xl border border-slate-200 bg-slate-50 p-4 shadow-sm transition-all hover:bg-white peer-checked:border-transparent peer-checked:bg-white peer-checked:ring-2 peer-checked:ring-offset-1"
+                        style="--tw-ring-color: {{ $occasion->theme_color ?? '#3b82f6' }}">
+                        <svg class="mb-2 h-8 w-8 text-rose-500 transition-transform peer-checked:scale-110" fill="none"
+                          viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="text-sm font-medium text-slate-900 text-center">No</span>
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
 
