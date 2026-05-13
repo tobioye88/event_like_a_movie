@@ -42,7 +42,7 @@
 
     <!-- Hero Image Section (Left on Desktop, Top on Mobile) -->
     <div class="relative w-full min-h-[80vh] md:w-1/2 md:fixed md:top-0 md:left-0 md:h-screen md:min-h-screen">
-      <div class="absolute inset-0 block md:hidden bg-gradient-to-t from-slate-900/90 to-transparent z-10"></div>
+      <div class="absolute inset-0 block md:hidden bg-gradient-to-t from-slate-900/50 to-transparent z-10"></div>
       <img
         src="{{ $occasion->background_image ? getImageUrl($occasion->background_image) : asset('assets/images/bg-homepage-hero.jpg') }}"
         alt="{{ $occasion->title }}" class="w-full h-full object-cover absolute inset-0">
