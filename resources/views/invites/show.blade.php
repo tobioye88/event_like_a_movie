@@ -201,7 +201,7 @@
           @endif
         </div>
 
-        @if(!$hasRsvped)
+        {{-- @if(!$hasRsvped) --}}
         <!-- RSVP Form -->
         <div class="animate-fade-in-up mt-8">
           <div class="text-center md:text-left mb-10">
@@ -320,7 +320,7 @@
             </form>
           </div>
         </div>
-        @endif
+        {{-- @endif --}}
 
         @if($occasion->side_image)
         <!-- Additional Optional Image for mobile or lower section -->
