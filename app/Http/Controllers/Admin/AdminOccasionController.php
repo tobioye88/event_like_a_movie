@@ -120,7 +120,7 @@ class AdminOccasionController extends Controller
             'side_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'event_at' => ['required', 'date'],
             'event_timezone' => ['required', 'timezone'],
-            'location_country' => ['required', 'string', 'max:120'],
+            'location_country' => ['nullable', 'string', 'max:120'],
             'location_state' => ['required', 'string', 'max:120'],
             'location_address' => ['required', 'string', 'max:255'],
             'accommodation' => ['nullable', 'string', 'max:2000'],

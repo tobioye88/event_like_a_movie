@@ -137,6 +137,12 @@
   .select {
     @apply py-2 px-4 border border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md;
   }
+
+  .required::after {
+    content: "*";
+    color: red;
+    margin-left: 0.25rem;
+  }
 }
 @layer utilities {
 }

@@ -1,5 +1,6 @@
 <x-admin.layouts.app :title="'Edit Occasion: ' . $occasion->title">
-  <form method="POST" action="{{ route('admin.occasions.update', $occasion) }}" enctype="multipart/form-data" class="rounded-xl border border-slate-200 bg-white p-6">
+  <form method="POST" action="{{ route('admin.occasions.update', $occasion) }}" enctype="multipart/form-data"
+    class="rounded-xl border border-slate-200 bg-white p-6">
     @csrf
     @method('PUT')
 
@@ -23,11 +24,14 @@
       <div>
         <p class="text-sm font-semibold">Background Image</p>
         @if($occasion->background_image)
-        <img src="{{ getImageUrl($occasion->background_image) }}" alt="Occasion background image" class="mt-2 h-40 w-full rounded border object-cover">
-        <form method="POST" action="{{ route('admin.occasions.images.destroy', [$occasion, 'background']) }}" class="mt-3" onsubmit="return confirm('Remove the background image?')">
+        <img src="{{ getImageUrl($occasion->background_image) }}" alt="Occasion background image"
+          class="mt-2 h-40 w-full rounded border object-cover hover:h-full transition-all">
+        <form method="POST" action="{{ route('admin.occasions.images.destroy', [$occasion, 'background']) }}"
+          class="mt-3" onsubmit="return confirm('Remove the background image?')">
           @csrf
           @method('DELETE')
-          <button type="submit" class="rounded border border-red-300 px-4 py-2 text-red-700 hover:bg-red-50">Remove Background</button>
+          <button type="submit" class="rounded border border-red-300 px-4 py-2 text-red-700 hover:bg-red-50">Remove
+            Background</button>
         </form>
         @else
         <p class="mt-2 text-sm text-slate-500">No background image uploaded.</p>
@@ -37,11 +41,14 @@
       <div>
         <p class="text-sm font-semibold">RSVP Side Image</p>
         @if($occasion->side_image)
-        <img src="{{ getImageUrl($occasion->side_image) }}" alt="Occasion RSVP side image" class="mt-2 h-40 w-full rounded border object-cover">
-        <form method="POST" action="{{ route('admin.occasions.images.destroy', [$occasion, 'side']) }}" class="mt-3" onsubmit="return confirm('Remove the RSVP side image?')">
+        <img src="{{ getImageUrl($occasion->side_image) }}" alt="Occasion RSVP side image"
+          class="mt-2 h-40 w-full rounded border object-cover hover:h-full transition-all">
+        <form method="POST" action="{{ route('admin.occasions.images.destroy', [$occasion, 'side']) }}" class="mt-3"
+          onsubmit="return confirm('Remove the RSVP side image?')">
           @csrf
           @method('DELETE')
-          <button type="submit" class="rounded border border-red-300 px-4 py-2 text-red-700 hover:bg-red-50">Remove RSVP Image</button>
+          <button type="submit" class="rounded border border-red-300 px-4 py-2 text-red-700 hover:bg-red-50">Remove RSVP
+            Image</button>
         </form>
         @else
         <p class="mt-2 text-sm text-slate-500">No RSVP side image uploaded.</p>
