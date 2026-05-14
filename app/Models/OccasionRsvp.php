@@ -17,6 +17,12 @@ class OccasionRsvp extends Model
         'phone',
         'response',
         'note',
+        'guest_count',
+        'guest_names',
+    ];
+
+    protected $casts = [
+        'guest_names' => 'array',
     ];
 
     public function occasion(): BelongsTo

@@ -14,6 +14,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
     rel="stylesheet">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -217,7 +218,14 @@
               class="absolute top-0 right-0 w-32 h-32 transform translate-x-16 -translate-y-16 rounded-full opacity-20"
               style="background-color: {{ $occasion->theme_color ?? '#e2e8f0' }}"></div>
 
-            <form method="POST" action="{{ route('invites.rsvp.store', $occasion) }}" class="space-y-6 relative z-10">
+            <form method="POST" action="{{ route('invites.rsvp.store', $occasion) }}" class="space-y-6 relative z-10"
+              x-data="{ 
+                attendance: '{{ old('response', '') }}', 
+                guestCount: {{ old('guest_count', 0) }},
+                get guestArray() {
+                    return Array.from({ length: this.guestCount }, (_, i) => i);
+                }
+              }">
               @csrf
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -250,7 +258,7 @@
                     <!-- Yes Option -->
                     <div>
                       <input type="radio" name="response" id="response_yes" value="yes" class="peer sr-only" required
-                        @checked(old('response')==='yes' )>
+                        x-model="attendance" @checked(old('response')==='yes' )>
                       <label for="response_yes"
                         class="relative flex cursor-pointer flex-col items-center justify-center rounded-xl border border-slate-200 bg-slate-50 p-4 shadow-sm transition-all hover:bg-white peer-checked:border-transparent peer-checked:bg-white peer-checked:ring-2 peer-checked:ring-offset-1"
                         style="--tw-ring-color: {{ $occasion->theme_color ?? '#3b82f6' }}">
@@ -266,7 +274,7 @@
                     <!-- Maybe Option -->
                     <div>
                       <input type="radio" name="response" id="response_maybe" value="maybe" class="peer sr-only"
-                        required @checked(old('response')==='maybe' )>
+                        required x-model="attendance" @checked(old('response')==='maybe' )>
                       <label for="response_maybe"
                         class="relative flex cursor-pointer flex-col items-center justify-center rounded-xl border border-slate-200 bg-slate-50 p-4 shadow-sm transition-all hover:bg-white peer-checked:border-transparent peer-checked:bg-white peer-checked:ring-2 peer-checked:ring-offset-1"
                         style="--tw-ring-color: {{ $occasion->theme_color ?? '#3b82f6' }}">
@@ -282,7 +290,7 @@
                     <!-- No Option -->
                     <div>
                       <input type="radio" name="response" id="response_no" value="no" class="peer sr-only" required
-                        @checked(old('response')==='no' )>
+                        x-model="attendance" @checked(old('response')==='no' )>
                       <label for="response_no"
                         class="relative flex cursor-pointer flex-col items-center justify-center rounded-xl border border-slate-200 bg-slate-50 p-4 shadow-sm transition-all hover:bg-white peer-checked:border-transparent peer-checked:bg-white peer-checked:ring-2 peer-checked:ring-offset-1"
                         style="--tw-ring-color: {{ $occasion->theme_color ?? '#3b82f6' }}">
@@ -295,6 +303,28 @@
                       </label>
                     </div>
                   </div>
+                </div>
+              </div>
+
+              <!-- Guest details block (Show only if attending) -->
+              <div x-show="attendance === 'yes'" x-transition class="space-y-6 pt-4 border-t border-slate-100">
+                <div>
+                  <label for="guest_count" class="block text-sm font-medium text-slate-700 mb-2">Number of Additional Guests</label>
+                  <input type="number" id="guest_count" name="guest_count" x-model.number="guestCount" min="0" max="10"
+                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:border-transparent block p-3.5 transition-shadow"
+                    style="--tw-ring-color: {{ $occasion->theme_color ?? '#3b82f6' }}50">
+                  <p class="text-xs text-slate-500 mt-2">Are you bringing anyone? (Not including yourself)</p>
+                </div>
+
+                <div x-show="guestCount > 0" x-transition class="space-y-4">
+                  <label class="block text-sm font-medium text-slate-700">Guest Names</label>
+                  <template x-for="i in guestArray" :key="i">
+                    <div>
+                      <input type="text" :name="`guest_names[${i}]`" :placeholder="`Guest ${i + 1} Name`"
+                        class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-2 focus:border-transparent block p-3 transition-shadow"
+                        style="--tw-ring-color: {{ $occasion->theme_color ?? '#3b82f6' }}50">
+                    </div>
+                  </template>
                 </div>
               </div>
 

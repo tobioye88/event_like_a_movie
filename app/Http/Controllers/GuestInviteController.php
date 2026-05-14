@@ -39,6 +39,8 @@ class GuestInviteController extends Controller
                 'phone' => $validated['phone'],
                 'response' => $validated['response'],
                 'note' => $validated['note'] ?? null,
+                'guest_count' => $validated['guest_count'] ?? 0,
+                'guest_names' => array_filter($validated['guest_names'] ?? []),
             ],
         );
 

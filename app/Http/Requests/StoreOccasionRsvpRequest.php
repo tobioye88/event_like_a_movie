@@ -19,6 +19,9 @@ class StoreOccasionRsvpRequest extends FormRequest
             'phone' => ['required', 'string', 'max:30'],
             'response' => ['required', 'in:yes,no,maybe'],
             'note' => ['nullable', 'string', 'max:2000'],
+            'guest_count' => ['nullable', 'integer', 'min:0', 'max:10'],
+            'guest_names' => ['nullable', 'array'],
+            'guest_names.*' => ['nullable', 'string', 'max:255'],
         ];
     }
 }
