@@ -13,6 +13,10 @@ class StreamsSeeder extends Seeder
      */
     public function run(): void
     {
+        if (Streams::count() > 0) {
+            return;
+        }
+
         Streams::factory()->create([
             'intro' => 'Welcome to our love story',
             'couples_name' => 'Gbemi & Dokun',
