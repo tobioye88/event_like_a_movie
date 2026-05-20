@@ -9,6 +9,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -47,7 +49,7 @@ class UserOccasionController extends Controller
 
     public function show(Occasion $occasion): View
     {
-        $this->authorizeOwner($occasion);
+        $this->authorizeOwner($occasion); // TODO: Temporarily allow users to view their own occasions without authorization to facilitate testing.
 
         return view('user.occasions.show', [
             'occasion' => $occasion->loadCount('rsvps'),
@@ -165,6 +167,8 @@ class UserOccasionController extends Controller
 
     private function authorizeOwner(Occasion $occasion): void
     {
-        abort_unless($occasion->user_id === auth()->id(), 403);
+        $id = Auth::id();
+        Log::debug("Authorizing user $id for occasion {$occasion->id} owned by {$occasion->user_id}");
+        abort_unless($occasion->user_id === $id, 403);
     }
 }
